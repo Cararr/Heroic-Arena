@@ -29,5 +29,5 @@ I used simple sqlite DB for backend with four tables: Worlds, Heroes and Users. 
 App will run on port 3000.
 
 ---
-**Visit my [Github](https://github.com/Cararr) account for more or contact me at cararr@tlen.pl!**
+>**Visit my [Github](https://github.com/Cararr) account for more or contact me at cararr@tlen.pl!**
 
