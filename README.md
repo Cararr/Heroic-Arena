@@ -1,70 +1,32 @@
-# Getting Started with Create React App
+# Heroic Arena
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+![Heroic Arena](https://lekturaobowiazkowa.pl/wp-content/uploads/2018/02/ksiazki-fantasy.jpg)
+Visit and play! [Heroic Arena](https://heroic-arena.herokuapp.com/).
 
-## Available Scripts
+## Goal of creating this app
 
-In the project directory, you can run:
+The purpose of this app was to train my React and Node skills gained through [Codecademy](https://www.codecademy.com/learn).
+This is my first full stack (React, Node.js, sqlite) app.
 
-### `npm start`
+## Deployment
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Both frontend and backend are deployed using [Heroku](https://www.heroku.com/home).
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## About app
 
-### `npm test`
+It's a simple "game" where players (1-4) chooses a Hero (each Hero is linked to a World and has unique name, description, images and power level). In the next phase all choosen Heroe's appear on the Arena where after 10 secound only one is left. The last standing Hero is the winner.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Interact with Database
 
-### `npm run build`
+I used simple sqlite DB for backend with four tables: Worlds, Heroes and Users. You can interact with it using the Admin Panel (Manage database option in the Welcome Page). You will be asked to submit Your name (type: *"Tester"*) before You can enter the Admin Panel. From it You can do everything with Heroes and Worlds tables, including creating new, editing and deleting existing records. I have tried to make it intuitive, You should get a response if for some reasons (missing required informations etc.) You can not make any changes.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Running Heroic Arena on Your machine
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+`npm install`
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+`npm run start`
 
-### `npm run eject`
+App will run on port 3000.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+**Visit my [Github](https://github.com/Cararr) account for more or contact me at cararr@tlen.pl!**
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
