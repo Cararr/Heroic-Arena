@@ -5,7 +5,7 @@ Visit and play! [Heroic Arena](https://heroic-arena.herokuapp.com/).
 
 ## Goal of creating this app
 
-The purpose of this app was to train my React and Node skills gained through [Codecademy](https://www.codecademy.com/learn).
+The purpose of this app was to practice my knowledge of React and Node gained through [Codecademy](https://www.codecademy.com/learn).
 This is my first full stack (React, Node.js, sqlite) app.
 
 ## Deployment
