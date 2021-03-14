@@ -1,0 +1,22 @@
+.admin-panel {
+	width: 100%;
+	height: 100%;
+	background-color: lightblue;
+	padding-bottom: 3rem;
+}
+.admin-panel header {
+	display: flex;
+	padding: 1rem 1rem 0 0;
+}
+.admin-panel header h1 {
+	margin: 0;
+	padding: 5px 0 0 0;
+	flex-grow: 2;
+}
+.admin-panel button {
+	margin: 0;
+	padding: 0;
+}
+.admin-panel button:hover {
+	border: 1px solid white;
+}

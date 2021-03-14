@@ -1,0 +1,29 @@
+#results {
+	width: 640px;
+	height: 360px;
+	z-index: 1;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	background-image: url('https://i.ytimg.com/vi/1m6YCrpQ5vA/maxresdefault.jpg');
+	background-size: contain;
+	display: none;
+	flex-direction: column;
+	justify-content: center;
+}
+#results h1 {
+	font-size: 4rem;
+	margin-top: 10px;
+	color: rgb(219, 37, 37);
+}
+#results button {
+	width: 12.5rem;
+	margin-top: 9rem;
+	margin-right: 0.5rem;
+	border: none;
+	font-size: 1.5rem;
+}
+#results button:hover {
+	border: 1px solid white;
+}

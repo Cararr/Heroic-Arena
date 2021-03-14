@@ -1,0 +1,27 @@
+.login-panel {
+	width: 20rem;
+	height: 10rem;
+	position: absolute;
+	background-color: green;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	border: 2px solid goldenrod;
+}
+.login-button:hover {
+	border: 1px solid white;
+}
+.login-panel p {
+	text-align: center;
+	margin-top: 0.5rem;
+	font-size: 1.5rem;
+}
+.login-panel input {
+	display: block;
+	margin: auto;
+	margin-top: 1rem;
+	font-size: 1.5rem;
+}
+.login-buttons {
+	display: flex;
+}

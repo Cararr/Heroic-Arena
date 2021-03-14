@@ -1,0 +1,33 @@
+.panel {
+	width: 40rem;
+	height: 20rem;
+	background-color: darkkhaki;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+
+h1 {
+	text-align: center;
+	margin-top: 2rem;
+	margin-bottom: 3rem;
+	font-size: 2rem;
+}
+label {
+	text-align: center;
+	width: max-content;
+	display: block;
+	margin: 1rem auto;
+	cursor: pointer;
+}
+.panel input {
+	cursor: pointer;
+	margin-right: 1rem;
+}
+.players-number-button {
+	margin-top: 3rem;
+}
+.panel button:hover {
+	border: 1px solid white;
+}

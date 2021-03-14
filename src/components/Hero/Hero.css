@@ -1,0 +1,40 @@
+.hero {
+	color: aliceblue;
+	border-radius: 0.5rem;
+	font-size: 1.3rem;
+	padding: 5px;
+	padding-left: 10px;
+	background-color: darkolivegreen;
+	transition: all 0.15s ease-in-out;
+	cursor: pointer;
+	height: fit-content;
+	width: 20rem;
+	margin-bottom: 1rem;
+}
+
+.hero-name {
+	text-align: center;
+	font-size: 1.5rem;
+	font-weight: bold;
+	color: darkred;
+}
+.hero img {
+	float: right;
+	width: 11rem;
+	min-height: 10rem;
+	display: block;
+	padding: 0;
+	margin-left: 1px;
+}
+.hero p {
+	padding: 0.5rem 0;
+}
+.hero:hover {
+	transform: translate(-2%, -2%);
+}
+span {
+	color: rgb(1, 1, 158);
+}
+.clear {
+	clear: both;
+}

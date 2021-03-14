@@ -1,0 +1,20 @@
+.arena-container {
+	width: 100%;
+	height: 100vh;
+	background-image: url('https://i.pinimg.com/originals/86/cb/99/86cb99d27d7cdaef5572a21c5167e625.png');
+	background-repeat: no-repeat;
+	background-size: cover;
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	grid-template-rows: 1fr 1fr;
+	justify-items: center;
+	overflow: hidden;
+}
+#test {
+	width: 100%;
+	height: 100vh;
+	background-image: url('https://i.pinimg.com/originals/86/cb/99/86cb99d27d7cdaef5572a21c5167e625.png');
+	background-repeat: no-repeat;
+	background-size: cover;
+	margin-bottom: -2px;
+}

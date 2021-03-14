@@ -1,0 +1,31 @@
+.data-item {
+	width: 5rem;
+	height: 5rem;
+	text-align: center;
+	padding: 5px;
+	cursor: pointer;
+}
+.data-item:hover {
+	border: 2px dashed white;
+}
+.data-item p {
+	padding-bottom: 0;
+}
+.data-item-world {
+	background-color: brown;
+	color: antiquewhite;
+}
+.data-item-hero {
+	background-color: darkolivegreen;
+}
+.data-item-id {
+	font-size: 0.8rem;
+	margin-bottom: 0.3rem;
+}
+.data-item-name {
+	font-size: 0.9rem;
+	word-wrap: break-word;
+}
+.selected {
+	border: 2px dashed white;
+}

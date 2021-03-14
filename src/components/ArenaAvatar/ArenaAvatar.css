@@ -1,0 +1,8 @@
+.avatar {
+	max-width: 10rem;
+	max-height: 50vh;
+}
+.avatar img {
+	max-height: 100%;
+	max-width: 12rem;
+}

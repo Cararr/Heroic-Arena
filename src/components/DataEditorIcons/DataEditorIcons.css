@@ -1,0 +1,39 @@
+.data-icons-container {
+	width: 100%;
+	display: flex;
+	margin-top: 1rem;
+	justify-content: space-evenly;
+	position: relative;
+}
+.data-icon {
+	font-size: 50px;
+	cursor: pointer;
+}
+.data-icon-description {
+	position: absolute;
+	top: 120%;
+	font-size: 1.1rem;
+}
+
+.description-update,
+.description-delete {
+	opacity: 0;
+	transition: all 0.3s linear;
+}
+
+.data-icons-container button {
+	font-size: 1rem;
+}
+
+.icon-arrows-cw {
+	color: blue;
+}
+.icon-arrows-cw:hover ~ .description-update {
+	opacity: 100%;
+}
+.icon-crown-minus {
+	color: maroon;
+}
+.icon-crown-minus:hover ~ .description-delete {
+	opacity: 100%;
+}

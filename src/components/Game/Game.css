@@ -1,0 +1,32 @@
+.content {
+	color: red;
+	background-color: burlywood;
+	width: 100%;
+	border: brown 1px solid;
+	margin-top: 1rem;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-evenly;
+	padding: 1rem 3rem 0 1rem;
+}
+button {
+	height: 3rem;
+	width: 6rem;
+	background-color: brown;
+	margin: auto;
+	cursor: pointer;
+	border: none;
+	border-radius: 5px;
+	color: cornsilk;
+	display: block;
+	margin-top: 1rem;
+}
+.back-to-welcome-page-button {
+	position: absolute;
+	margin: 0;
+	top: 1rem;
+	left: 1rem;
+}
+.back-to-welcome-page-button:hover {
+	border: 3px solid green;
+}
