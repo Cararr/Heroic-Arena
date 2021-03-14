@@ -1,12 +1,12 @@
 # Heroic Arena
 
 ![Heroic Arena](https://lekturaobowiazkowa.pl/wp-content/uploads/2018/02/ksiazki-fantasy.jpg)
-Visit and play! [Heroic Arena](https://heroic-arena.herokuapp.com/).
+Visit and play the [Heroic Arena](https://heroic-arena.herokuapp.com/)!
 
 ## Goal of creating this app
 
 The purpose of this app was to practice my knowledge of React and Node gained through [Codecademy](https://www.codecademy.com/learn).
-This is my first full stack (React, Node.js, sqlite) app.
+This is my first full stack (**React, Node.js, sqlite**) app.
 
 ## Deployment
 
@@ -29,5 +29,5 @@ I used simple sqlite DB for backend with four tables: Worlds, Heroes and Users. 
 App will run on port 3000.
 
 ---
->**Visit my [Github](https://github.com/Cararr) account for more or contact me at cararr@tlen.pl!**
+>*Visit my [Github](https://github.com/Cararr) account for more or contact me at cararr@tlen.pl!*
 
