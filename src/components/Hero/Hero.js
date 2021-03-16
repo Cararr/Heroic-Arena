@@ -2,11 +2,6 @@ import './Hero.css';
 import React from 'react';
 
 export default class Hero extends React.Component {
-	constructor(props) {
-		super(props);
-
-		this.state = {};
-	}
 	render() {
 		return (
 			<div onClick={() => this.props.onClick(this.props.hero)} className="hero">

@@ -5,7 +5,6 @@ import DataEditorIcons from '../DataEditorIcons/DataEditorIcons';
 export default class WorldForm extends Component {
 	constructor(props) {
 		super(props);
-		this.changeValue = this.changeValue.bind(this);
 		this.state = {
 			currentForm: {
 				name: this.props.selectedWorld?.name || '',
@@ -15,11 +14,11 @@ export default class WorldForm extends Component {
 		};
 	}
 
-	changeValue(e) {
+	changeValue = (e) => {
 		const currentForm = this.state.currentForm;
 		currentForm[e.target.name] = e.target.value;
 		this.setState({ currentForm });
-	}
+	};
 
 	render() {
 		return (

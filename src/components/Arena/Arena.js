@@ -7,7 +7,6 @@ export default class Arena extends React.Component {
 	constructor(props) {
 		super(props);
 		this.entranceDrums = new Audio('entrance_drums.wav');
-		this.state = {};
 	}
 
 	render() {

@@ -2,12 +2,6 @@ import React, { Component } from 'react';
 import './DataItem.css';
 
 export default class DataItem extends Component {
-	constructor(props) {
-		super(props);
-
-		this.state = {};
-	}
-
 	render() {
 		return (
 			<div

@@ -5,7 +5,6 @@ import './HeroForm.css';
 export default class HeroForm extends Component {
 	constructor(props) {
 		super(props);
-		this.changeValue = this.changeValue.bind(this);
 
 		this.state = {
 			currentForm: {
@@ -21,14 +20,14 @@ export default class HeroForm extends Component {
 		};
 	}
 
-	changeValue(e) {
+	changeValue = (e) => {
 		const currentForm = this.state.currentForm;
 		currentForm[e.target.name] =
 			e.target.name === 'world_id' || e.target.name === 'power_level'
 				? Number(e.target.value)
 				: e.target.value;
 		this.setState({ currentForm });
-	}
+	};
 
 	render() {
 		const worldsRadios = this.props.worlds.map((world) => (

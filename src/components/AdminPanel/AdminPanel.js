@@ -5,13 +5,6 @@ import './AdminPanel.css';
 export default class AdminPanel extends Component {
 	constructor(props) {
 		super(props);
-		this.selectWorld = this.selectWorld.bind(this);
-		this.worldCreatorOpenClose = this.worldCreatorOpenClose.bind(this);
-		this.heroCreatorOpenClose = this.heroCreatorOpenClose.bind(this);
-		this.selectHero = this.selectHero.bind(this);
-		this.addInstance = this.addInstance.bind(this);
-		this.updateInstance = this.updateInstance.bind(this);
-		this.deleteInstance = this.deleteInstance.bind(this);
 		this.state = {
 			worldSelected: null,
 			createNewWorldOn: false,
@@ -22,7 +15,7 @@ export default class AdminPanel extends Component {
 		};
 	}
 
-	async addInstance(type, obejctToAdd) {
+	addInstance = async (type, obejctToAdd) => {
 		const response = await this.props.addInstance(type, obejctToAdd);
 		if (type === 'world') {
 			const worldDatabaseResponse = response;
@@ -31,9 +24,9 @@ export default class AdminPanel extends Component {
 			const heroDatabaseResponse = response;
 			this.setState({ createNewHeroOn: false, heroDatabaseResponse });
 		}
-	}
+	};
 
-	async updateInstance(type, updatedObjectData) {
+	updateInstance = async (type, updatedObjectData) => {
 		if (type === 'world') {
 			const updatedInstance = {
 				...updatedObjectData,
@@ -49,9 +42,9 @@ export default class AdminPanel extends Component {
 			const response = await this.props.updateInstance(type, updatedInstance);
 			this.setState({ heroSelected: null, heroDatabaseResponse: response });
 		}
-	}
+	};
 
-	async deleteInstance(type) {
+	deleteInstance = async (type) => {
 		if (type === 'world') {
 			const worldDatabaseResponse = await this.props.deleteInstance(
 				type,
@@ -65,39 +58,35 @@ export default class AdminPanel extends Component {
 			);
 			this.setState({ heroSelected: null, heroDatabaseResponse });
 		}
-	}
+	};
 
-	selectWorld(world) {
+	selectWorld = (world) =>
 		this.setState({
 			worldSelected: world,
 			worldDatabaseResponse: null,
 			createNewWorldOn: false,
 		});
-	}
 
-	worldCreatorOpenClose() {
+	worldCreatorOpenClose = () =>
 		this.setState({
 			worldSelected: null,
 			worldDatabaseResponse: null,
 			createNewWorldOn: !this.state.createNewWorldOn,
 		});
-	}
 
-	selectHero(hero) {
+	selectHero = (hero) =>
 		this.setState({
 			heroSelected: hero,
 			heroDatabaseResponse: null,
 			createNewHeroOn: false,
 		});
-	}
 
-	heroCreatorOpenClose() {
+	heroCreatorOpenClose = () =>
 		this.setState({
 			createNewHeroOn: !this.state.createNewHeroOn,
 			heroSelected: null,
 			heroDatabaseResponse: null,
 		});
-	}
 
 	render() {
 		return (

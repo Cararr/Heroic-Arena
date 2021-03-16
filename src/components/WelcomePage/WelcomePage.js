@@ -5,21 +5,14 @@ import './WelcomePage.css';
 export default class WelcomePage extends Component {
 	constructor(props) {
 		super(props);
-		this.cancelLogin = this.cancelLogin.bind(this);
-		this.openLogin = this.openLogin.bind(this);
-
 		this.state = {
 			loginOn: false,
 		};
 	}
 
-	cancelLogin() {
-		this.setState({ loginOn: false });
-	}
+	cancelLogin = () => this.setState({ loginOn: false });
 
-	openLogin() {
-		this.setState({ loginOn: true });
-	}
+	openLogin = () => this.setState({ loginOn: true });
 
 	render() {
 		return (

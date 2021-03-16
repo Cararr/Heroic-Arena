@@ -8,15 +8,6 @@ import DB from '../../util/connectToDB';
 export default class App extends React.Component {
 	constructor(props) {
 		super(props);
-		this.submitLogin = this.submitLogin.bind(this);
-		this.loadWorlds = this.loadWorlds.bind(this);
-		this.loadHeroes = this.loadHeroes.bind(this);
-		this.startGame = this.startGame.bind(this);
-		this.enterAdminPanel = this.enterAdminPanel.bind(this);
-		this.backToWelcomePage = this.backToWelcomePage.bind(this);
-		this.addInstance = this.addInstance.bind(this);
-		this.updateInstance = this.updateInstance.bind(this);
-		this.deleteInstance = this.deleteInstance.bind(this);
 		this.state = {
 			isUserAuthorized: false,
 			shouldGameBegin: false,
@@ -26,14 +17,14 @@ export default class App extends React.Component {
 		};
 	}
 
-	async submitLogin(userName) {
+	submitLogin = async (userName) => {
 		const isUserAllowed = await DB.logIn(userName);
 		if (isUserAllowed) {
 			this.setState({ isUserAuthorized: true, shouldEnterAdminPanel: true });
 		}
-	}
+	};
 
-	async addInstance(type, objectToAdd) {
+	addInstance = async (type, objectToAdd) => {
 		const response = await DB.addToDB(type, objectToAdd);
 		if (type === 'world') {
 			if (typeof response === 'object') {
@@ -63,9 +54,9 @@ export default class App extends React.Component {
 				return `Created hero #${response.hero.id}: ${response.hero.name}.`;
 			} else return response;
 		} else return `Wrong object type: ${type}`;
-	}
+	};
 
-	async updateInstance(type, updatedObjectData) {
+	updateInstance = async (type, updatedObjectData) => {
 		const noChangesMessage = `You haven't changed anything at all!`;
 		if (type === 'world') {
 			const worldToBeUpdated = this.state.worlds.find(
@@ -131,9 +122,9 @@ export default class App extends React.Component {
 				return `Updated hero #${response.hero.id}`;
 			} else return response;
 		} else return `Wrong object type: ${type}`;
-	}
+	};
 
-	async deleteInstance(type, objectToDelete) {
+	deleteInstance = async (type, objectToDelete) => {
 		const response = await DB.deleteFromDB(type, objectToDelete);
 		if (type === 'world') {
 			const newWrodls = this.state.worlds.filter(
@@ -151,9 +142,9 @@ export default class App extends React.Component {
 			this.setState({ heroes: newHeroes });
 			return `Deleted hero #${response}`;
 		} else return `Wrong object type: ${type}`;
-	}
+	};
 
-	async loadWorlds() {
+	loadWorlds = async () => {
 		const worldsResponse = await DB.getWorlds();
 		const loadedWorlds = worldsResponse.worlds.map((world) => {
 			return {
@@ -164,8 +155,8 @@ export default class App extends React.Component {
 			};
 		});
 		this.setState({ worlds: loadedWorlds });
-	}
-	async loadHeroes() {
+	};
+	loadHeroes = async () => {
 		const heroesResponse = await DB.getHeroes();
 		const loadedHeroes = heroesResponse.heroes.map((hero) => {
 			return {
@@ -181,19 +172,14 @@ export default class App extends React.Component {
 			};
 		});
 		this.setState({ heroes: loadedHeroes });
-	}
+	};
 
-	startGame() {
-		this.setState({ shouldGameBegin: true });
-	}
+	startGame = () => this.setState({ shouldGameBegin: true });
 
-	enterAdminPanel() {
-		this.setState({ shouldEnterAdminPanel: true });
-	}
+	enterAdminPanel = () => this.setState({ shouldEnterAdminPanel: true });
 
-	backToWelcomePage() {
+	backToWelcomePage = () =>
 		this.setState({ shouldEnterAdminPanel: false, shouldGameBegin: false });
-	}
 
 	render() {
 		//Start the Game

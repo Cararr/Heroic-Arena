@@ -4,15 +4,13 @@ import React from 'react';
 export default class ChoosePlayersNumber extends React.Component {
 	constructor(props) {
 		super(props);
-		this.handleClick = this.handleClick.bind(this);
 		this.state = {
 			howManyPlayers: 0,
 		};
 	}
 
-	handleClick(e) {
+	handleClick = (e) =>
 		this.setState({ howManyPlayers: Number(e.target.value) });
-	}
 
 	render() {
 		return (

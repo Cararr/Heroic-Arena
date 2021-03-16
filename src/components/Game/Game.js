@@ -10,15 +10,6 @@ import ArenaResults from '../ArenaResults/ArenaResults';
 export default class Game extends React.Component {
 	constructor(props) {
 		super(props);
-		this.handleClick = this.selectWorld.bind(this);
-		this.chooseHero = this.chooseHero.bind(this);
-		this.selectWorld = this.selectWorld.bind(this);
-		this.unselectWorld = this.unselectWorld.bind(this);
-		this.submitPlayersNumber = this.submitPlayersNumber.bind(this);
-		this.resolveGame = this.resolveGame.bind(this);
-		this.restartGame = this.restartGame.bind(this);
-		this.disableWorld = this.disableWorld.bind(this);
-
 		this.finalMusic = new Audio('final_music.wav');
 		this.state = {
 			disabledWorlds: this.props.worlds
@@ -35,35 +26,32 @@ export default class Game extends React.Component {
 		};
 	}
 
-	disableWorld() {
+	disableWorld = () =>
 		this.setState({ disabledWorlds: [...this.state.disabledWorlds, 1] });
-	}
 
-	unselectWorld() {
+	unselectWorld = () =>
 		this.setState({
 			whichWorldChoosen: null,
 		});
-	}
 
-	selectWorld(id) {
+	selectWorld = (id) => {
 		if (id !== this.state.whichWorldChoosen)
 			this.setState({
 				whichWorldChoosen: id,
 			});
-	}
+	};
 
-	submitPlayersNumber(playersNumber) {
+	submitPlayersNumber = (playersNumber) =>
 		this.setState({ howManyPlayers: playersNumber });
-	}
-	chooseHero(hero) {
+
+	chooseHero = (hero) =>
 		this.setState({
 			heroesChoosed: [...this.state.heroesChoosed, hero],
 			whichPlayerTurn: this.state.whichPlayerTurn + 1,
 			whichWorldChoosen: null,
 		});
-	}
 
-	resolveGame() {
+	resolveGame = () => {
 		const resultsArray = this.state.heroesChoosed.map((hero, index) => {
 			return { player: index + 1, finalPower: hero.power + divineFavour() };
 		});
@@ -85,9 +73,9 @@ export default class Game extends React.Component {
 			// @ts-ignore
 			finalPannelHeader.innerText = `Hail Player ${winner.player}!`;
 		}, 16000);
-	}
+	};
 
-	restartGame() {
+	restartGame = () => {
 		this.finalMusic.pause();
 		this.finalMusic = new Audio('final_music.wav');
 		this.setState({
@@ -103,7 +91,7 @@ export default class Game extends React.Component {
 			howManyPlayers: 0,
 			shouldArenaStart: false,
 		});
-	}
+	};
 
 	render() {
 		//render arena

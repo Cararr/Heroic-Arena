@@ -4,15 +4,13 @@ import './LoginPanel.css';
 export default class LoginPanel extends Component {
 	constructor(props) {
 		super(props);
-		this.handleInputChange = this.handleInputChange.bind(this);
 		this.state = {
 			currentLoginValue: '',
 		};
 	}
 
-	handleInputChange(e) {
+	handleInputChange = (e) =>
 		this.setState({ currentLoginValue: e.target.value });
-	}
 
 	render() {
 		return (
