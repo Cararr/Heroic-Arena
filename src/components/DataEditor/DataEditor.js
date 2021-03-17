@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './DataEditor.css';
 import WorldForm from '../WorldForm/WorldForm';
 import HeroForm from '../HeroForm/HeroForm';
+import PropTypes from 'prop-types';
 
 export default class DataEditor extends Component {
 	render() {
@@ -31,7 +32,6 @@ export default class DataEditor extends Component {
 				{this.props.selectedHero && (
 					<HeroForm
 						selectedHero={this.props.selectedHero}
-						addInstance={this.props.addInstance}
 						worlds={this.props.worlds}
 						updateInstance={this.props.updateInstance}
 						deleteInstance={this.props.deleteInstance}
@@ -54,3 +54,16 @@ export default class DataEditor extends Component {
 		);
 	}
 }
+
+DataEditor.propTypes = {
+	isCreateWorldOn: PropTypes.bool,
+	isCreateHeroOn: PropTypes.bool,
+	addInstance: PropTypes.func,
+	updateInstance: PropTypes.func,
+	deleteInstance: PropTypes.func,
+	worlds: PropTypes.array,
+	selectedWorld: PropTypes.object,
+	selectedHero: PropTypes.object,
+	worldResponse: PropTypes.string,
+	heroResponse: PropTypes.string,
+};

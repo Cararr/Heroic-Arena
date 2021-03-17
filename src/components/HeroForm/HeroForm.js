@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import DataEditorIcons from '../DataEditorIcons/DataEditorIcons';
 import './HeroForm.css';
+import PropTypes from 'prop-types';
 
 export default class HeroForm extends Component {
 	constructor(props) {
@@ -137,3 +138,12 @@ export default class HeroForm extends Component {
 			});
 	}
 }
+
+HeroForm.propTypes = {
+	isCreateHeroOn: PropTypes.bool,
+	addInstance: PropTypes.func,
+	updateInstance: PropTypes.func,
+	deleteInstance: PropTypes.func,
+	worlds: PropTypes.array,
+	selectedHero: PropTypes.object,
+};

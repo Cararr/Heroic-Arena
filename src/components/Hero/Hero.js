@@ -1,5 +1,6 @@
 import './Hero.css';
 import React from 'react';
+import PropTypes from 'prop-types';
 
 export default class Hero extends React.Component {
 	render() {
@@ -22,3 +23,8 @@ export default class Hero extends React.Component {
 		);
 	}
 }
+
+Hero.propTypes = {
+	hero: PropTypes.object.isRequired,
+	onClick: PropTypes.func.isRequired,
+};

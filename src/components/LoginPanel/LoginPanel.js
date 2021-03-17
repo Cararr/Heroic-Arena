@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './LoginPanel.css';
+import PropTypes from 'prop-types';
 
 export default class LoginPanel extends Component {
 	constructor(props) {
@@ -36,3 +37,8 @@ export default class LoginPanel extends Component {
 		);
 	}
 }
+
+LoginPanel.propTypes = {
+	submitLogin: PropTypes.func.isRequired,
+	cancelLogin: PropTypes.func.isRequired,
+};

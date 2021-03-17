@@ -1,5 +1,6 @@
 import React from 'react';
 import './ArenaAvatar.css';
+import PropTypes from 'prop-types';
 
 export default class ArenaAvatar extends React.Component {
 	render() {
@@ -13,3 +14,7 @@ export default class ArenaAvatar extends React.Component {
 		);
 	}
 }
+
+ArenaAvatar.propTypes = {
+	hero: PropTypes.object.isRequired,
+};

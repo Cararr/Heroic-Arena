@@ -1,5 +1,6 @@
 import React from 'react';
 import './ArenaResults.css';
+import PropTypes from 'prop-types';
 
 export default function ArenaResults(props) {
 	return (
@@ -19,3 +20,7 @@ export default function ArenaResults(props) {
 		</div>
 	);
 }
+
+ArenaResults.propType = {
+	restart: PropTypes.func.isRequired,
+};

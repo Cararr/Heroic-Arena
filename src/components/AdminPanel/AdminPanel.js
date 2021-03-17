@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import DataContainer from '../DataContainer/DataContainer';
 import './AdminPanel.css';
+import PropTypes from 'prop-types';
 
 export default class AdminPanel extends Component {
 	constructor(props) {
@@ -122,3 +123,12 @@ export default class AdminPanel extends Component {
 		);
 	}
 }
+
+AdminPanel.propTypes = {
+	addInstance: PropTypes.func.isRequired,
+	updateInstance: PropTypes.func.isRequired,
+	deleteInstance: PropTypes.func.isRequired,
+	startGame: PropTypes.func.isRequired,
+	heroes: PropTypes.array.isRequired,
+	worlds: PropTypes.array.isRequired,
+};

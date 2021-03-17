@@ -1,5 +1,6 @@
 import './World.css';
 import React from 'react';
+import PropTypes from 'prop-types';
 
 export default class World extends React.Component {
 	render() {
@@ -24,3 +25,9 @@ export default class World extends React.Component {
 		);
 	}
 }
+
+World.propTypes = {
+	isDisabled: PropTypes.bool.isRequired,
+	world: PropTypes.object.isRequired,
+	onClick: PropTypes.func.isRequired,
+};

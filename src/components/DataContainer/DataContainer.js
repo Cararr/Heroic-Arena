@@ -4,6 +4,7 @@ import DataEditor from '../DataEditor/DataEditor';
 import DataItem from '../DataItem/DataItem';
 import WorldForm from '../WorldForm/WorldForm';
 import HeroForm from '../HeroForm/HeroForm';
+import PropTypes from 'prop-types';
 
 export default class DataContainer extends Component {
 	constructor(props) {
@@ -80,3 +81,21 @@ export default class DataContainer extends Component {
 		);
 	}
 }
+
+DataContainer.propTypes = {
+	selectWorld: PropTypes.func,
+	selectHero: PropTypes.func,
+	isCreateWorldOn: PropTypes.bool,
+	isCreateHeroOn: PropTypes.bool,
+	worldCreatorOpenClose: PropTypes.func,
+	heroCreatorOpenClose: PropTypes.func,
+	addInstance: PropTypes.func.isRequired,
+	updateInstance: PropTypes.func.isRequired,
+	deleteInstance: PropTypes.func.isRequired,
+	worlds: PropTypes.array,
+	worldsList: PropTypes.array,
+	selectedWorld: PropTypes.object,
+	selectedHero: PropTypes.object,
+	worldResponse: PropTypes.string,
+	heroResponse: PropTypes.string,
+};

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './DataItem.css';
+import PropTypes from 'prop-types';
 
 export default class DataItem extends Component {
 	render() {
@@ -24,3 +25,11 @@ export default class DataItem extends Component {
 		);
 	}
 }
+
+DataItem.propTypes = {
+	isSelected: PropTypes.bool.isRequired,
+	selectWorld: PropTypes.func,
+	selectHero: PropTypes.func,
+	world: PropTypes.object,
+	hero: PropTypes.object,
+};

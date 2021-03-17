@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './DataEditorIcons.css';
+import PropTypes from 'prop-types';
 
 export default class DataEditorIcons extends Component {
 	render() {
@@ -35,3 +36,14 @@ export default class DataEditorIcons extends Component {
 		);
 	}
 }
+
+DataEditorIcons.propTypes = {
+	isCreateWorldOn: PropTypes.bool,
+	isCreateHeroOn: PropTypes.bool,
+	addInstance: PropTypes.func,
+	updateInstance: PropTypes.func,
+	deleteInstance: PropTypes.func,
+	selectedWorld: PropTypes.object,
+	selectedHero: PropTypes.object,
+	currentForm: PropTypes.object.isRequired,
+};

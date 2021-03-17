@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import LoginPanel from '../LoginPanel/LoginPanel';
 import './WelcomePage.css';
+import PropTypes from 'prop-types';
 
 export default class WelcomePage extends Component {
 	constructor(props) {
@@ -54,3 +55,10 @@ export default class WelcomePage extends Component {
 		);
 	}
 }
+
+WelcomePage.propTypes = {
+	submitLogin: PropTypes.func.isRequired,
+	isUserAuthorized: PropTypes.bool.isRequired,
+	enterAdmin: PropTypes.func.isRequired,
+	startGame: PropTypes.func.isRequired,
+};

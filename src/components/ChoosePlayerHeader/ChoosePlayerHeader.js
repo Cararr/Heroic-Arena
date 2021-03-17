@@ -1,4 +1,6 @@
 import './ChoosePlayerHeader.css';
+import PropTypes from 'prop-types';
+
 export default function ChoosePlayerHeader(props) {
 	return (
 		<h1 className="choose-player-header">
@@ -6,3 +8,7 @@ export default function ChoosePlayerHeader(props) {
 		</h1>
 	);
 }
+
+ChoosePlayerHeader.propTypes = {
+	turn: PropTypes.number.isRequired,
+};

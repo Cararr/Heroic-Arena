@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './WorldForm.css';
 import DataEditorIcons from '../DataEditorIcons/DataEditorIcons';
+import PropTypes from 'prop-types';
 
 export default class WorldForm extends Component {
 	constructor(props) {
@@ -77,3 +78,11 @@ export default class WorldForm extends Component {
 		}
 	}
 }
+
+WorldForm.propTypes = {
+	isCreateWorldOn: PropTypes.bool,
+	addInstance: PropTypes.func,
+	updateInstance: PropTypes.func,
+	deleteInstance: PropTypes.func,
+	selectedWorld: PropTypes.object,
+};

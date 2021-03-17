@@ -6,6 +6,7 @@ import ChoosePlayerHeader from '../ChoosePlayerHeader/ChoosePlayerHeader';
 import ChoosePlayersNumber from '../ChoosePlayersNumber/ChoosePlayersNumber';
 import Arena from '../Arena/Arena';
 import ArenaResults from '../ArenaResults/ArenaResults';
+import PropTypes from 'prop-types';
 
 export default class Game extends React.Component {
 	constructor(props) {
@@ -193,3 +194,9 @@ export default class Game extends React.Component {
 function divineFavour() {
 	return Math.floor(Math.random() * 30);
 }
+
+Game.propTypes = {
+	backToWelcomePage: PropTypes.func.isRequired,
+	heroes: PropTypes.array.isRequired,
+	worlds: PropTypes.array.isRequired,
+};
