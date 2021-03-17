@@ -1,29 +1,22 @@
-import React, { Component } from 'react';
 import './DataItem.css';
 import PropTypes from 'prop-types';
 
-export default class DataItem extends Component {
-	render() {
-		return (
-			<div
-				onClick={() => {
-					this.props.world
-						? this.props.selectWorld(this.props.world)
-						: this.props.selectHero(this.props.hero);
-				}}
-				className={`data-item ${
-					this.props.world ? 'data-item-world' : 'data-item-hero'
-				} ${this.props.isSelected && 'selected'}`}
-			>
-				<p className="data-item-id">
-					Id: {this.props.hero?.id || this.props.world?.id}
-				</p>
-				<p className="data-item-name">
-					{this.props.hero?.name || this.props.world?.name}
-				</p>
-			</div>
-		);
-	}
+export default function DataItem(props) {
+	return (
+		<div
+			onClick={() => {
+				props.world
+					? props.selectWorld(props.world)
+					: props.selectHero(props.hero);
+			}}
+			className={`data-item ${
+				props.world ? 'data-item-world' : 'data-item-hero'
+			} ${props.isSelected && 'selected'}`}
+		>
+			<p className="data-item-id">Id: {props.hero?.id || props.world?.id}</p>
+			<p className="data-item-name">{props.hero?.name || props.world?.name}</p>
+		</div>
+	);
 }
 
 DataItem.propTypes = {

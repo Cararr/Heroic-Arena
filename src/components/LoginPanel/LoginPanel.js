@@ -1,41 +1,33 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import './LoginPanel.css';
 import PropTypes from 'prop-types';
 
-export default class LoginPanel extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			currentLoginValue: '',
-		};
-	}
+export default function LoginPanel(props) {
+	const [currentLoginValue, setCurrentLoginValue] = useState('');
 
-	handleInputChange = (e) =>
-		this.setState({ currentLoginValue: e.target.value });
+	const handleInputChange = (e) => setCurrentLoginValue(e.target.value);
 
-	render() {
-		return (
-			<div className="login-panel">
-				<p>Identify yourself</p>
-				<input
-					onChange={this.handleInputChange}
-					value={this.state.currentLoginValue}
-					type="text"
-				></input>
-				<div className="login-buttons">
-					<button onClick={this.props.cancelLogin} className="login-button">
-						Cancel
-					</button>
-					<button
-						onClick={() => this.props.submitLogin(this.state.currentLoginValue)}
-						className="login-button"
-					>
-						Submit
-					</button>
-				</div>
+	return (
+		<div className="login-panel">
+			<p>Identify yourself</p>
+			<input
+				onChange={handleInputChange}
+				value={currentLoginValue}
+				type="text"
+			></input>
+			<div className="login-buttons">
+				<button onClick={props.cancelLogin} className="login-button">
+					Cancel
+				</button>
+				<button
+					onClick={() => props.submitLogin(currentLoginValue)}
+					className="login-button"
+				>
+					Submit
+				</button>
 			</div>
-		);
-	}
+		</div>
+	);
 }
 
 LoginPanel.propTypes = {

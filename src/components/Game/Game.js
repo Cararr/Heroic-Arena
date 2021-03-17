@@ -156,7 +156,7 @@ export default class Game extends React.Component {
 					>
 						Back to the Welcome Page
 					</button>
-					<ChoosePlayersNumber onClick={this.submitPlayersNumber} />
+					<ChoosePlayersNumber submitPlayersNumber={this.submitPlayersNumber} />
 				</div>
 			);
 	}

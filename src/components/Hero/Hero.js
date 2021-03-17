@@ -1,27 +1,24 @@
 import './Hero.css';
-import React from 'react';
 import PropTypes from 'prop-types';
 
-export default class Hero extends React.Component {
-	render() {
-		return (
-			<div onClick={() => this.props.onClick(this.props.hero)} className="hero">
-				<div>
-					<img alt={`${this.props.hero.name}`} src={this.props.hero.image} />
-					<p className="hero-name">{this.props.hero.name}</p>
-					<p>
-						<span>Type:</span> {this.props.hero.type}
-					</p>
-					<p>
-						<span>Strenghts:</span> {this.props.hero.strengths}
-					</p>
-					<p>
-						<span>Weakness:</span> {this.props.hero.weakness}
-					</p>
-				</div>
+export default function Hero(props) {
+	return (
+		<div onClick={() => props.onClick(props.hero)} className="hero">
+			<div>
+				<img alt={`${props.hero.name}`} src={props.hero.image} />
+				<p className="hero-name">{props.hero.name}</p>
+				<p>
+					<span>Type:</span> {props.hero.type}
+				</p>
+				<p>
+					<span>Strenghts:</span> {props.hero.strengths}
+				</p>
+				<p>
+					<span>Weakness:</span> {props.hero.weakness}
+				</p>
 			</div>
-		);
-	}
+		</div>
+	);
 }
 
 Hero.propTypes = {

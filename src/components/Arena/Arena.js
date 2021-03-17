@@ -24,7 +24,7 @@ export default class Arena extends React.Component {
 					(avatar['style'].justifySelf =
 						Math.random() > 0.5 ? 'start' : 'center')
 			);
-		// animateArena();
+
 		this.entranceDrums.play();
 		if (this.props.heroes.length) this.props.arenaResolve();
 	}

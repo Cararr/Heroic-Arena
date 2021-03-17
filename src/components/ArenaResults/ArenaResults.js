@@ -1,4 +1,3 @@
-import React from 'react';
 import './ArenaResults.css';
 import PropTypes from 'prop-types';
 

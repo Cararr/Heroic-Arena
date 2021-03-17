@@ -1,58 +1,53 @@
-import React, { Component } from 'react';
 import './DataEditor.css';
 import WorldForm from '../WorldForm/WorldForm';
 import HeroForm from '../HeroForm/HeroForm';
 import PropTypes from 'prop-types';
 
-export default class DataEditor extends Component {
-	render() {
-		return (
-			<div className="data-editor">
-				<h3>Editor's panel</h3>
-				<h2>
-					{(this.props.selectedWorld &&
-						`Edit world #${this.props.selectedWorld.id}`) ||
-						(this.props.selectedHero &&
-							`Edit hero #${this.props.selectedHero.id}`) ||
-						(this.props.isCreateWorldOn && 'Create new World') ||
-						(this.props.isCreateHeroOn && 'Create new Hero')}
-				</h2>
-				{(this.props.worldResponse || this.props.heroResponse) && (
-					<p className="database-response">
-						{this.props.worldResponse || this.props.heroResponse}
-					</p>
-				)}
-				{this.props.selectedWorld && (
-					<WorldForm
-						selectedWorld={this.props.selectedWorld}
-						updateInstance={this.props.updateInstance}
-						deleteInstance={this.props.deleteInstance}
-					/>
-				)}
-				{this.props.selectedHero && (
-					<HeroForm
-						selectedHero={this.props.selectedHero}
-						worlds={this.props.worlds}
-						updateInstance={this.props.updateInstance}
-						deleteInstance={this.props.deleteInstance}
-					/>
-				)}
-				{this.props.isCreateWorldOn && (
-					<WorldForm
-						addInstance={this.props.addInstance}
-						isCreateWorldOn={this.props.isCreateWorldOn}
-					/>
-				)}
-				{this.props.isCreateHeroOn && (
-					<HeroForm
-						addInstance={this.props.addInstance}
-						isCreateHeroOn={this.props.isCreateHeroOn}
-						worlds={this.props.worlds}
-					/>
-				)}
-			</div>
-		);
-	}
+export default function DataEditor(props) {
+	return (
+		<div className="data-editor">
+			<h3>Editor's panel</h3>
+			<h2>
+				{(props.selectedWorld && `Edit world #${props.selectedWorld.id}`) ||
+					(props.selectedHero && `Edit hero #${props.selectedHero.id}`) ||
+					(props.isCreateWorldOn && 'Create new World') ||
+					(props.isCreateHeroOn && 'Create new Hero')}
+			</h2>
+			{(props.worldResponse || props.heroResponse) && (
+				<p className="database-response">
+					{props.worldResponse || props.heroResponse}
+				</p>
+			)}
+			{props.selectedWorld && (
+				<WorldForm
+					selectedWorld={props.selectedWorld}
+					updateInstance={props.updateInstance}
+					deleteInstance={props.deleteInstance}
+				/>
+			)}
+			{props.selectedHero && (
+				<HeroForm
+					selectedHero={props.selectedHero}
+					worlds={props.worlds}
+					updateInstance={props.updateInstance}
+					deleteInstance={props.deleteInstance}
+				/>
+			)}
+			{props.isCreateWorldOn && (
+				<WorldForm
+					addInstance={props.addInstance}
+					isCreateWorldOn={props.isCreateWorldOn}
+				/>
+			)}
+			{props.isCreateHeroOn && (
+				<HeroForm
+					addInstance={props.addInstance}
+					isCreateHeroOn={props.isCreateHeroOn}
+					worlds={props.worlds}
+				/>
+			)}
+		</div>
+	);
 }
 
 DataEditor.propTypes = {
