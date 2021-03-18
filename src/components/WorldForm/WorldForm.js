@@ -66,7 +66,7 @@ export default class WorldForm extends Component {
 		);
 	}
 
-	componentDidUpdate(prevProps, prevState) {
+	componentDidUpdate(prevProps) {
 		if (this.props.selectedWorld !== prevProps.selectedWorld) {
 			this.setState({
 				currentForm: {

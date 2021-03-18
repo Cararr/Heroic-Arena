@@ -122,7 +122,7 @@ export default class HeroForm extends Component {
 		);
 	}
 
-	componentDidUpdate(prevProps, prevState) {
+	componentDidUpdate(prevProps) {
 		if (this.props.selectedHero !== prevProps.selectedHero)
 			this.setState({
 				currentForm: {

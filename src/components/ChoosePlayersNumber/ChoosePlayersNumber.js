@@ -12,7 +12,7 @@ export default function ChoosePlayersNumber(props) {
 			<header>
 				<h1>How many players will play?</h1>
 			</header>
-			<form>
+			<form onSubmit={() => props.submitPlayersNumber(howManyPlayers)}>
 				<label htmlFor="two">
 					<input
 						onClick={setPlayersNumber}
@@ -44,11 +44,7 @@ export default function ChoosePlayersNumber(props) {
 					Four
 				</label>
 				<div className="test">
-					<button
-						className="players-number-button"
-						onClick={() => props.submitPlayersNumber(howManyPlayers)}
-						type="button"
-					>
+					<button className="players-number-button" type="submit">
 						Submit
 					</button>
 				</div>
