@@ -5,10 +5,7 @@ import PropTypes from 'prop-types';
 export default function LoginPanel(props) {
 	const [currentLoginValue, setCurrentLoginValue] = useState('');
 
-	const handleInputChange = (e) => {
-		if (/^[a-zA-Z]+$/.test(e.target.value))
-			setCurrentLoginValue(e.target.value);
-	};
+	const handleInputChange = (e) => setCurrentLoginValue(e.target.value);
 
 	return (
 		<div className="login-panel">

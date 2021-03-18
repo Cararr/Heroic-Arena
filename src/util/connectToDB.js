@@ -1,7 +1,7 @@
-const PATH = 'https://heroic-arena-api.herokuapp.com';
-// const PATH = 'http://localhost:4000';
+// const PATH = 'https://heroic-arena-api.herokuapp.com';
+const PATH = 'http://localhost:4000';
 
-class DB {
+export default class DB {
 	static async getWorlds() {
 		try {
 			const response = await fetch(`${PATH}/worlds/`);
@@ -115,5 +115,3 @@ class DB {
 		}
 	}
 }
-
-export default DB;
