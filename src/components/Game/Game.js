@@ -53,18 +53,22 @@ export default class Game extends React.Component {
 		});
 
 	resolveGame = () => {
-		const resultsArray = this.state.heroesChoosed.map((hero, index) => {
-			return { player: index + 1, finalPower: hero.power + divineFavour() };
-		});
+		const resultsArray = this.state.heroesChoosed.map((hero, index) => ({
+			player: index + 1,
+			finalPower: hero.power + divineFavour(),
+		}));
+
 		let winner = resultsArray[0];
 		for (let index = 1; index < resultsArray.length; index++) {
 			if (resultsArray[index].finalPower > winner.finalPower)
 				winner = resultsArray[index];
 		}
+
 		setTimeout(() => {
 			const survivor = this.state.heroesChoosed[winner.player - 1];
 			this.setState({ heroesChoosed: [survivor] });
 		}, 10000);
+
 		setTimeout(() => {
 			const finalPannel = document.querySelector('#results');
 			const finalPannelHeader = document.querySelector('#results_header');
