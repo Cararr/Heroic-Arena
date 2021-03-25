@@ -36,6 +36,7 @@ export default class DB {
 			console.log(error.message);
 		}
 	}
+
 	static async addToDB(type, objectToAdd) {
 		let fullPath;
 		if (type === 'world') fullPath = `${PATH}/worlds/`;

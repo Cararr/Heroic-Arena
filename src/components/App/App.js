@@ -156,6 +156,7 @@ export default class App extends React.Component {
 		});
 		this.setState({ worlds: loadedWorlds });
 	};
+
 	loadHeroes = async () => {
 		const heroesResponse = await DB.getHeroes();
 		const loadedHeroes = heroesResponse.heroes.map((hero) => {

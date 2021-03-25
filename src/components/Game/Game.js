@@ -70,13 +70,11 @@ export default class Game extends React.Component {
 		}, 10000);
 
 		setTimeout(() => {
-			const finalPannel = document.querySelector('#results');
+			const finalPanel = document.querySelector('#results');
 			const finalPannelHeader = document.querySelector('#results_header');
 			this.finalMusic.play();
-			// @ts-ignore
-			finalPannel.style.display = 'flex';
-			// @ts-ignore
-			finalPannelHeader.innerText = `Hail Player ${winner.player}!`;
+			finalPanel['style'].display = 'flex';
+			finalPannelHeader['innerText'] = `Hail Player ${winner.player}!`;
 		}, 16000);
 	};
 

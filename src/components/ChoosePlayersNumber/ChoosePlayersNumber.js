@@ -44,7 +44,11 @@ export default function ChoosePlayersNumber(props) {
 					Four
 				</label>
 				<div className="test">
-					<button className="players-number-button" type="submit">
+					<button
+						disabled={howManyPlayers === 0}
+						className="players-number-button"
+						type="submit"
+					>
 						Submit
 					</button>
 				</div>
