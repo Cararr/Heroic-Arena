@@ -7,12 +7,19 @@ export default function ChoosePlayersNumber(props) {
 
 	const setPlayersNumber = (e) => setHowManyPlayers(Number(e.target.value));
 
+	const submitNumber = (e) => {
+		e.preventDefault();
+		howManyPlayers !== 0
+			? props.submitPlayersNumber(howManyPlayers)
+			: alert('Choose a number first!');
+	};
+
 	return (
 		<div className="panel">
 			<header>
 				<h1>How many players will play?</h1>
 			</header>
-			<form onSubmit={() => props.submitPlayersNumber(howManyPlayers)}>
+			<form onSubmit={submitNumber}>
 				<label htmlFor="two">
 					<input
 						onClick={setPlayersNumber}
@@ -44,11 +51,7 @@ export default function ChoosePlayersNumber(props) {
 					Four
 				</label>
 				<div className="test">
-					<button
-						disabled={howManyPlayers === 0}
-						className="players-number-button"
-						type="submit"
-					>
+					<button className="players-number-button" type="submit">
 						Submit
 					</button>
 				</div>
