@@ -1,5 +1,5 @@
 import './Game.css';
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import World from '../World/World';
 import Hero from '../Hero/Hero';
 import ChoosePlayerHeader from '../ChoosePlayerHeader/ChoosePlayerHeader';
@@ -8,52 +8,54 @@ import Arena from '../Arena/Arena';
 import ArenaResults from '../ArenaResults/ArenaResults';
 import PropTypes from 'prop-types';
 
-export default class Game extends React.Component {
-	constructor(props) {
-		super(props);
-		this.finalMusic = new Audio('final_music.wav');
-		this.state = {
-			disabledWorlds: this.props.worlds
-				.filter(
-					(world) =>
-						!this.props.heroes.some((hero) => hero.worldId === world.id)
-				)
-				.map((worldWithoutHeroes) => worldWithoutHeroes.id),
-			heroesChoosed: [],
-			whichWorldChoosen: null,
-			whichPlayerTurn: 1,
-			howManyPlayers: 0,
-			shouldArenaStart: false,
-		};
-	}
+export default function Game(props) {
+	const finalMusic = useRef(new Audio('final_music.wav'));
 
-	disableWorld = () =>
-		this.setState({ disabledWorlds: [...this.state.disabledWorlds, 1] });
+	const [disabledWorlds, setdisabledWorlds] = useState(
+		props.worlds
+			.filter(
+				(world) => !props.heroes.some((hero) => hero.worldId === world.id)
+			)
+			.map((worldWithoutHeroes) => worldWithoutHeroes.id)
+	);
+	const [heroesChoosed, setHeroesChoosed] = useState([]);
+	const [worldChoosen, setWorldChoosen] = useState(null);
+	useEffect(() => {
+		const lastWorldChoosen = heroesChoosed[heroesChoosed.length - 1]?.worldId;
+		if (
+			heroesChoosed.filter((hero) => hero.worldId === lastWorldChoosen)
+				.length ===
+			props.heroes.filter((hero) => hero.worldId === lastWorldChoosen).length
+		) {
+			setdisabledWorlds((prev) => [...prev, lastWorldChoosen]);
+		}
+	}, [heroesChoosed]);
 
-	unselectWorld = () =>
-		this.setState({
-			whichWorldChoosen: null,
-		});
+	const [whichPlayerTurn, setWhichPlayerTurn] = useState(1);
+	const [howManyPlayers, setHowManyPlayers] = useState(0);
+	const [shouldArenaStart, setShouldArenaStart] = useState(false);
+	useEffect(() => {
+		if (whichPlayerTurn === howManyPlayers + 1 && howManyPlayers)
+			setShouldArenaStart(true);
+	}, [whichPlayerTurn]);
 
-	selectWorld = (id) => {
-		if (id !== this.state.whichWorldChoosen)
-			this.setState({
-				whichWorldChoosen: id,
-			});
+	const unselectWorld = () => setWorldChoosen(() => null);
+
+	const selectWorld = (id) => {
+		setWorldChoosen(() => id);
 	};
 
-	submitPlayersNumber = (playersNumber) =>
-		this.setState({ howManyPlayers: playersNumber });
+	const submitPlayersNumber = (playersNumber) =>
+		setHowManyPlayers(() => playersNumber);
 
-	chooseHero = (hero) =>
-		this.setState({
-			heroesChoosed: [...this.state.heroesChoosed, hero],
-			whichPlayerTurn: this.state.whichPlayerTurn + 1,
-			whichWorldChoosen: null,
-		});
+	const chooseHero = (hero) => {
+		setWhichPlayerTurn((prev) => prev + 1);
+		setWorldChoosen(() => null);
+		setHeroesChoosed((prev) => [...prev, hero]);
+	};
 
-	resolveGame = () => {
-		const resultsArray = this.state.heroesChoosed.map((hero, index) => ({
+	const resolveGame = () => {
+		const resultsArray = heroesChoosed.map((hero, index) => ({
 			player: index + 1,
 			finalPower: hero.power + divineFavour(),
 		}));
@@ -65,132 +67,96 @@ export default class Game extends React.Component {
 		}
 
 		setTimeout(() => {
-			const survivor = this.state.heroesChoosed[winner.player - 1];
-			this.setState({ heroesChoosed: [survivor] });
+			const survivor = heroesChoosed[winner.player - 1];
+			setHeroesChoosed([survivor]);
 		}, 10000);
 
 		setTimeout(() => {
+			finalMusic.current.play();
 			const finalPanel = document.querySelector('#results');
-			const finalPannelHeader = document.querySelector('#results_header');
-			this.finalMusic.play();
+			const finalPanelHeader = document.querySelector('#results_header');
 			finalPanel['style'].display = 'flex';
-			finalPannelHeader['innerText'] = `Hail Player ${winner.player}!`;
+			finalPanelHeader['innerText'] = `Hail Player ${winner.player}!`;
 		}, 16000);
 	};
 
-	restartGame = () => {
-		this.finalMusic.pause();
-		this.finalMusic = new Audio('final_music.wav');
-		this.setState({
-			disabledWorlds: this.props.worlds
+	const restartGame = () => {
+		finalMusic.current.load();
+		setHeroesChoosed([]);
+		setWorldChoosen(null);
+		setWhichPlayerTurn(1);
+		setHowManyPlayers(0);
+		setShouldArenaStart(false);
+		setdisabledWorlds(
+			props.worlds
 				.filter(
-					(world) =>
-						!this.props.heroes.some((hero) => hero.worldId === world.id)
+					(world) => !props.heroes.some((hero) => hero.worldId === world.id)
 				)
-				.map((worldWithoutHeroes) => worldWithoutHeroes.id),
-			heroesChoosed: [],
-			whichWorldChoosen: null,
-			whichPlayerTurn: 1,
-			howManyPlayers: 0,
-			shouldArenaStart: false,
-		});
+				.map((worldWithoutHeroes) => worldWithoutHeroes.id)
+		);
 	};
 
-	render() {
-		//render arena
-		if (this.state.shouldArenaStart)
-			return (
-				<div>
-					<Arena
-						arenaResolve={this.resolveGame}
-						heroes={this.state.heroesChoosed}
-					/>
-					<ArenaResults restart={this.restartGame} />
-				</div>
-			);
-		//render hero choosing panel
-		else if (this.state.whichWorldChoosen) {
-			//filter already choosed heroes
-			const heroes = this.props.heroes
-				.filter((hero) => {
-					return (
-						!this.state.heroesChoosed.some(
-							(heroesChoosed) => heroesChoosed.id === hero.id
-						) && hero.worldId === this.state.whichWorldChoosen
-					);
-				})
-				.map((hero) => {
-					return <Hero hero={hero} key={hero.id} onClick={this.chooseHero} />;
-				});
-			return (
-				<div>
-					<ChoosePlayerHeader turn={this.state.whichPlayerTurn} />
-					<div>
-						<div className="content">{heroes}</div>
-						<button onClick={this.unselectWorld}>Wróć</button>
-					</div>
-				</div>
-			);
-		}
-		//render world choosing panel
-		else if (this.state.howManyPlayers) {
-			const worlds = this.props.worlds.map((world) => (
-				<World
-					isDisabled={this.state.disabledWorlds.includes(world.id)}
-					world={world}
-					key={world.id}
-					onClick={this.selectWorld}
-				/>
-			));
-			return (
-				<div>
-					<ChoosePlayerHeader turn={this.state.whichPlayerTurn} />
-					<div className="content">{worlds}</div>
-				</div>
-			);
-		} //render how many players form
-		else
-			return (
-				<div>
-					<button
-						onClick={this.props.backToWelcomePage}
-						className="back-to-welcome-page-button"
-					>
-						Back to the Welcome Page
-					</button>
-					<ChoosePlayersNumber submitPlayersNumber={this.submitPlayersNumber} />
-				</div>
-			);
-	}
-
-	componentDidUpdate(prevProps, prevState) {
-		if (
-			prevState.whichPlayerTurn !== this.state.whichPlayerTurn &&
-			this.state.whichPlayerTurn === this.state.howManyPlayers + 1
-		) {
-			this.setState({ shouldArenaStart: true });
-		}
-
-		//check if a world should be disabled because of all its heroes taken
-		if (
-			this.state.heroesChoosed.filter(
-				(hero) => hero.worldId === prevState.whichWorldChoosen
-			).length &&
-			this.state.heroesChoosed.filter(
-				(hero) => hero.worldId === prevState.whichWorldChoosen
-			).length ===
-				this.props.heroes.filter(
-					(hero) => hero.worldId === prevState.whichWorldChoosen
-				).length
-		) {
-			this.setState({
-				disabledWorlds: [
-					...this.state.disabledWorlds,
-					prevState.whichWorldChoosen,
-				],
+	//render arena
+	if (shouldArenaStart)
+		return (
+			<div>
+				<Arena arenaResolve={resolveGame} heroes={heroesChoosed} />
+				<ArenaResults restart={restartGame} />
+			</div>
+		);
+	//render hero choosing panel
+	else if (worldChoosen) {
+		//filter already choosed heroes
+		const heroes = props.heroes
+			.filter((hero) => {
+				return (
+					!heroesChoosed.some(
+						(heroesChoosed) => heroesChoosed.id === hero.id
+					) && hero.worldId === worldChoosen
+				);
+			})
+			.map((hero) => {
+				return <Hero hero={hero} key={hero.id} onClick={chooseHero} />;
 			});
-		}
+		return (
+			<div>
+				<ChoosePlayerHeader turn={whichPlayerTurn} />
+				<div>
+					<div className="content">{heroes}</div>
+					<button onClick={unselectWorld}>Wróć</button>
+				</div>
+			</div>
+		);
 	}
+	//render world choosing panel
+	else if (howManyPlayers) {
+		const worlds = props.worlds.map((world) => (
+			<World
+				isDisabled={disabledWorlds.includes(world.id)}
+				world={world}
+				key={world.id}
+				onClick={selectWorld}
+			/>
+		));
+		return (
+			<div>
+				<ChoosePlayerHeader turn={whichPlayerTurn} />
+				<div className="content">{worlds}</div>
+			</div>
+		);
+	} //render how many players form
+	else
+		return (
+			<div>
+				<button
+					onClick={props.backToWelcomePage}
+					className="back-to-welcome-page-button"
+				>
+					Back to the Welcome Page
+				</button>
+				<ChoosePlayersNumber submitPlayersNumber={submitPlayersNumber} />
+			</div>
+		);
 }
 
 function divineFavour() {
