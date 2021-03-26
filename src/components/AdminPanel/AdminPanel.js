@@ -1,127 +1,114 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import DataContainer from '../DataContainer/DataContainer';
 import './AdminPanel.css';
 import PropTypes from 'prop-types';
 
-export default class AdminPanel extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			worldSelected: null,
-			createNewWorldOn: false,
-			heroSelected: null,
-			createNewHeroOn: false,
-			worldDatabaseResponse: null,
-			heroDatabaseResponse: null,
+export default function AdminPanel(props) {
+	const [world, setWorld] = useState({
+		selected: null,
+		createNewOn: false,
+		databaseResponse: null,
+	});
+
+	const [hero, setHero] = useState({
+		selected: null,
+		createNewOn: false,
+		databaseResponse: null,
+	});
+
+	const addInstance = async (type, obejctToAdd) => {
+		const databaseResponse = await props.addInstance(type, obejctToAdd);
+		if (type === 'world') {
+			setWorld((prev) => ({ ...prev, createNewOn: false, databaseResponse }));
+		} else if (type === 'hero') {
+			setHero((prev) => ({ ...prev, createNewOn: false, databaseResponse }));
+		}
+	};
+
+	const updateInstance = async (type, updatedObjectData) => {
+		const updatedInstance = {
+			...updatedObjectData,
+			id:
+				(type === 'world' && world.selected.id) ||
+				(type === 'hero' && hero.selected.id),
 		};
-	}
-
-	addInstance = async (type, obejctToAdd) => {
-		const response = await this.props.addInstance(type, obejctToAdd);
+		const databaseResponse = await props.updateInstance(type, updatedInstance);
 		if (type === 'world') {
-			const worldDatabaseResponse = response;
-			this.setState({ createNewWorldOn: false, worldDatabaseResponse });
+			setWorld((prev) => ({ ...prev, createNewOn: false, databaseResponse }));
 		} else if (type === 'hero') {
-			const heroDatabaseResponse = response;
-			this.setState({ createNewHeroOn: false, heroDatabaseResponse });
+			setHero((prev) => ({ ...prev, createNewOn: false, databaseResponse }));
 		}
 	};
 
-	updateInstance = async (type, updatedObjectData) => {
+	const deleteInstance = async (type) => {
 		if (type === 'world') {
-			const updatedInstance = {
-				...updatedObjectData,
-				id: this.state.worldSelected.id,
-			};
-			const response = await this.props.updateInstance(type, updatedInstance);
-			this.setState({ worldSelected: null, worldDatabaseResponse: response });
+			const databaseResponse = await props.deleteInstance(type, world.selected);
+			setWorld((prev) => ({ ...prev, selected: null, databaseResponse }));
 		} else if (type === 'hero') {
-			const updatedInstance = {
-				...updatedObjectData,
-				id: this.state.heroSelected.id,
-			};
-			const response = await this.props.updateInstance(type, updatedInstance);
-			this.setState({ heroSelected: null, heroDatabaseResponse: response });
+			const databaseResponse = await props.deleteInstance(type, hero.selected);
+			setHero((prev) => ({ ...prev, selected: null, databaseResponse }));
 		}
 	};
 
-	deleteInstance = async (type) => {
-		if (type === 'world') {
-			const worldDatabaseResponse = await this.props.deleteInstance(
-				type,
-				this.state.worldSelected
-			);
-			this.setState({ worldSelected: null, worldDatabaseResponse });
-		} else if (type === 'hero') {
-			const heroDatabaseResponse = await this.props.deleteInstance(
-				type,
-				this.state.heroSelected
-			);
-			this.setState({ heroSelected: null, heroDatabaseResponse });
-		}
-	};
-
-	selectWorld = (world) =>
-		this.setState({
-			worldSelected: world,
-			worldDatabaseResponse: null,
-			createNewWorldOn: false,
+	const selectWorld = (world) =>
+		setWorld({
+			selected: world,
+			createNewOn: false,
+			databaseResponse: null,
 		});
 
-	worldCreatorOpenClose = () =>
-		this.setState({
-			worldSelected: null,
-			worldDatabaseResponse: null,
-			createNewWorldOn: !this.state.createNewWorldOn,
+	const worldCreatorOpenClose = () =>
+		setWorld((prev) => ({
+			selected: null,
+			createNewOn: !prev.createNewOn,
+			databaseResponse: null,
+		}));
+
+	const selectHero = (hero) =>
+		setHero({
+			selected: hero,
+			createNewOn: false,
+			databaseResponse: null,
 		});
 
-	selectHero = (hero) =>
-		this.setState({
-			heroSelected: hero,
-			heroDatabaseResponse: null,
-			createNewHeroOn: false,
-		});
+	const heroCreatorOpenClose = () =>
+		setHero((prev) => ({
+			selected: null,
+			createNewOn: !prev.createNewOn,
+			databaseResponse: null,
+		}));
 
-	heroCreatorOpenClose = () =>
-		this.setState({
-			createNewHeroOn: !this.state.createNewHeroOn,
-			heroSelected: null,
-			heroDatabaseResponse: null,
-		});
-
-	render() {
-		return (
-			<div className="admin-panel">
-				<header>
-					<h1>Manage HA's Database</h1>
-					<button onClick={this.props.startGame}>Start game</button>
-				</header>
-				<DataContainer
-					selectWorld={this.selectWorld}
-					isCreateWorldOn={this.state.createNewWorldOn}
-					worldCreatorOpenClose={this.worldCreatorOpenClose}
-					selectedWorld={this.state.worldSelected}
-					worldResponse={this.state.worldDatabaseResponse}
-					worlds={this.props.worlds}
-					addInstance={this.addInstance}
-					updateInstance={this.updateInstance}
-					deleteInstance={this.deleteInstance}
-				/>
-				<DataContainer
-					selectHero={this.selectHero}
-					isCreateHeroOn={this.state.createNewHeroOn}
-					heroCreatorOpenClose={this.heroCreatorOpenClose}
-					selectedHero={this.state.heroSelected}
-					heroResponse={this.state.heroDatabaseResponse}
-					heroes={this.props.heroes}
-					worldsList={this.props.worlds}
-					addInstance={this.addInstance}
-					updateInstance={this.updateInstance}
-					deleteInstance={this.deleteInstance}
-				/>
-			</div>
-		);
-	}
+	return (
+		<div className="admin-panel">
+			<header>
+				<h1>Manage HA's Database</h1>
+				<button onClick={props.startGame}>Start game</button>
+			</header>
+			<DataContainer
+				selectWorld={selectWorld}
+				isCreateWorldOn={world.createNewOn}
+				worldCreatorOpenClose={worldCreatorOpenClose}
+				selectedWorld={world.selected}
+				worldResponse={world.databaseResponse}
+				worlds={props.worlds}
+				addInstance={addInstance}
+				updateInstance={updateInstance}
+				deleteInstance={deleteInstance}
+			/>
+			<DataContainer
+				selectHero={selectHero}
+				isCreateHeroOn={hero.createNewOn}
+				heroCreatorOpenClose={heroCreatorOpenClose}
+				selectedHero={hero.selected}
+				heroResponse={hero.databaseResponse}
+				heroes={props.heroes}
+				worldsList={props.worlds}
+				addInstance={addInstance}
+				updateInstance={updateInstance}
+				deleteInstance={deleteInstance}
+			/>
+		</div>
+	);
 }
 
 AdminPanel.propTypes = {
