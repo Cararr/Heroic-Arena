@@ -3,6 +3,12 @@ import './Arena.css';
 import ArenaAvatar from '../ArenaAvatar/ArenaAvatar';
 import PropTypes from 'prop-types';
 
+const lastHeroStyles = {
+	display: 'flex',
+	justifyContent: 'center',
+	alignItems: 'center',
+};
+
 export default function Arena(props) {
 	const entranceDrums = new Audio('entrance_drums.wav');
 
@@ -17,11 +23,6 @@ export default function Arena(props) {
 				);
 			entranceDrums.play();
 			props.arenaResolve();
-		} else if (props.heroes.length === 1) {
-			const arenaCont = document.querySelector('.arena-container');
-			arenaCont['style'].display = 'flex';
-			arenaCont['style'].justifyContent = 'center';
-			arenaCont['style'].alignItems = 'center';
 		}
 	});
 
@@ -29,7 +30,14 @@ export default function Arena(props) {
 		<ArenaAvatar key={contestant.name} hero={contestant} />
 	));
 
-	return <div className="arena-container">{contestants}</div>;
+	return (
+		<div
+			style={props.heroes.length === 1 ? lastHeroStyles : {}}
+			className="arena-container"
+		>
+			{contestants}
+		</div>
+	);
 }
 
 Arena.propTypes = {
