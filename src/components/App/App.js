@@ -74,7 +74,7 @@ export default function App() {
 					image: response.hero.image_url,
 					avatarImage: response.hero.arena_avatar_url,
 				};
-				setWorlds((prev) => [...prev, createdHero]);
+				setHeroes((prev) => [...prev, createdHero]);
 				return `Created hero #${response.hero.id}: ${response.hero.name}.`;
 			} else return response;
 		} else return `Wrong object type: ${type}`;

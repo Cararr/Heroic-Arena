@@ -34,9 +34,9 @@ export default function AdminPanel(props) {
 		};
 		const databaseResponse = await props.updateInstance(type, updatedInstance);
 		if (type === 'world') {
-			setWorld((prev) => ({ ...prev, createNewOn: false, databaseResponse }));
+			setWorld((prev) => ({ ...prev, selected: false, databaseResponse }));
 		} else if (type === 'hero') {
-			setHero((prev) => ({ ...prev, createNewOn: false, databaseResponse }));
+			setHero((prev) => ({ ...prev, selected: false, databaseResponse }));
 		}
 	};
 
