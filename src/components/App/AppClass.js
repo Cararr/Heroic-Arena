@@ -1,54 +1,30 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import Game from '../Game/Game';
 import AdminPanel from '../AdminPanel/AdminPanel';
 import WelcomePage from '../WelcomePage/WelcomePage';
 import '../../fontello/css/fontello.css';
 import DB from '../../util/connectToDB';
 
-export default function App() {
-	const [isUserAuthorized, setIsUserAuthorized] = useState(false);
-	const [shouldGameBegin, setShouldGameBegin] = useState(false);
-	const [shouldEnterAdminPanel, setShouldEnterAdminPanel] = useState(false);
+export default class App extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			isUserAuthorized: false,
+			shouldGameBegin: false,
+			shouldEnterAdminPanel: false,
+			worlds: [],
+			heroes: [],
+		};
+	}
 
-	const [worlds, setWorlds] = useState([]);
-	const [heroes, setHeroes] = useState([]);
-	useEffect(() => {
-		loadObjects();
-	}, []);
-
-	const loadObjects = async () => {
-		const worldsResponse = await DB.getWorlds();
-		const loadedWorlds = worldsResponse.worlds.map((world) => ({
-			id: world.id,
-			name: world.name,
-			worldOrigin: world.world_origin,
-			logoUrl: world.logo_url,
-		}));
-		const heroesResponse = await DB.getHeroes();
-		const loadedHeroes = heroesResponse.heroes.map((hero) => ({
-			id: hero.id,
-			worldId: hero.world_id,
-			name: hero.name,
-			type: hero.type,
-			strengths: hero.strengths,
-			weakness: hero.weakness,
-			power: hero.power_level,
-			image: hero.image_url,
-			avatarImage: hero.arena_avatar_url,
-		}));
-		setWorlds(loadedWorlds);
-		setHeroes(loadedHeroes);
-	};
-
-	const submitLogin = async (userName) => {
-		const loginResponse = await DB.logIn(userName);
-		if (loginResponse) {
-			setIsUserAuthorized(true);
-			setShouldEnterAdminPanel(true);
+	submitLogin = async (userName) => {
+		const isUserAllowed = await DB.logIn(userName);
+		if (isUserAllowed) {
+			this.setState({ isUserAuthorized: true, shouldEnterAdminPanel: true });
 		}
 	};
 
-	const addInstance = async (type, objectToAdd) => {
+	addInstance = async (type, objectToAdd) => {
 		const response = await DB.addToDB(type, objectToAdd);
 		if (type === 'world') {
 			if (typeof response === 'object') {
@@ -58,7 +34,7 @@ export default function App() {
 					worldOrigin: response.world.world_origin,
 					logoUrl: response.world.logo_url,
 				};
-				setWorlds((prev) => [...prev, createdWorld]);
+				this.setState({ worlds: [...this.state.worlds, createdWorld] });
 				return `Created world #${response.world.id}: ${response.world.name}.`;
 			} else return response;
 		} else if (type === 'hero') {
@@ -74,16 +50,16 @@ export default function App() {
 					image: response.hero.image_url,
 					avatarImage: response.hero.arena_avatar_url,
 				};
-				setWorlds((prev) => [...prev, createdHero]);
+				this.setState({ heroes: [...this.state.heroes, createdHero] });
 				return `Created hero #${response.hero.id}: ${response.hero.name}.`;
 			} else return response;
 		} else return `Wrong object type: ${type}`;
 	};
 
-	const updateInstance = async (type, updatedObjectData) => {
+	updateInstance = async (type, updatedObjectData) => {
 		const noChangesMessage = `You haven't changed anything at all!`;
 		if (type === 'world') {
-			const worldToBeUpdated = worlds.find(
+			const worldToBeUpdated = this.state.worlds.find(
 				(world) => world.id === updatedObjectData.id
 			);
 			if (
@@ -94,7 +70,7 @@ export default function App() {
 				return noChangesMessage;
 		}
 		if (type === 'hero') {
-			const heroToBeUpdated = heroes.find(
+			const heroToBeUpdated = this.state.heroes.find(
 				(hero) => hero.id === updatedObjectData.id
 			);
 			if (
@@ -111,9 +87,10 @@ export default function App() {
 		}
 
 		const response = await DB.updateInDB(type, updatedObjectData);
+
 		if (type === 'world') {
 			if (typeof response === 'object') {
-				const updatedWorlds = worlds;
+				const updatedWorlds = this.state.worlds;
 				updatedWorlds[
 					updatedWorlds.findIndex((world) => world.id === response.world.id)
 				] = {
@@ -122,12 +99,12 @@ export default function App() {
 					worldOrigin: response.world.world_origin,
 					logoUrl: response.world.logo_url,
 				};
-				setWorlds(updatedWorlds);
+				this.setState({ worlds: updatedWorlds });
 				return `Updated world #${response.world.id}`;
 			} else return response;
 		} else if (type === 'hero') {
 			if (typeof response === 'object') {
-				const updatedHeroes = heroes;
+				const updatedHeroes = this.state.heroes;
 				updatedHeroes[
 					updatedHeroes.findIndex((hero) => hero.id === response.hero.id)
 				] = {
@@ -141,64 +118,100 @@ export default function App() {
 					image: response.hero.image_url,
 					avatarImage: response.hero.arena_avatar_url,
 				};
-				setHeroes(updatedHeroes);
+				this.setState({ heroes: updatedHeroes });
 				return `Updated hero #${response.hero.id}`;
 			} else return response;
 		} else return `Wrong object type: ${type}`;
 	};
 
-	const deleteInstance = async (type, objectToDelete) => {
+	deleteInstance = async (type, objectToDelete) => {
 		const response = await DB.deleteFromDB(type, objectToDelete);
 		if (type === 'world') {
-			const worldsAfterDelete = worlds.filter((world) => world.id !== response);
-			setWorlds(worldsAfterDelete);
+			const newWrodls = this.state.worlds.filter(
+				(world) => world.id !== response
+			);
+			this.setState({ worlds: newWrodls });
 			//if world we want to remove has supplied heroes it wont be romoved
 			return typeof response === 'number'
 				? `Deleted world #${response}`
 				: response;
 		} else if (type === 'hero') {
-			const heroesAfterDelete = heroes.filter((hero) => hero.id !== response);
-			setHeroes(heroesAfterDelete);
+			const newHeroes = this.state.heroes.filter(
+				(hero) => hero.id !== response
+			);
+			this.setState({ heroes: newHeroes });
 			return `Deleted hero #${response}`;
 		} else return `Wrong object type: ${type}`;
 	};
 
-	const startGame = () => setShouldGameBegin(true);
-
-	const enterAdminPanel = () => setShouldEnterAdminPanel(true);
-
-	const backToWelcomePage = () => {
-		setShouldGameBegin(false);
-		setShouldEnterAdminPanel(false);
+	loadWorlds = async () => {
+		const worldsResponse = await DB.getWorlds();
+		const loadedWorlds = worldsResponse.worlds.map((world) => ({
+			id: world.id,
+			name: world.name,
+			worldOrigin: world.world_origin,
+			logoUrl: world.logo_url,
+		}));
+		this.setState({ worlds: loadedWorlds });
 	};
 
-	//Start the Game
-	if (shouldGameBegin)
-		return (
-			<Game
-				backToWelcomePage={backToWelcomePage}
-				heroes={heroes}
-				worlds={worlds}
-			/>
-		);
-	else if (shouldEnterAdminPanel) {
-		return (
-			<AdminPanel
-				addInstance={addInstance}
-				updateInstance={updateInstance}
-				deleteInstance={deleteInstance}
-				startGame={startGame}
-				heroes={heroes}
-				worlds={worlds}
-			/>
-		);
+	loadHeroes = async () => {
+		const heroesResponse = await DB.getHeroes();
+		const loadedHeroes = heroesResponse.heroes.map((hero) => ({
+			id: hero.id,
+			worldId: hero.world_id,
+			name: hero.name,
+			type: hero.type,
+			strengths: hero.strengths,
+			weakness: hero.weakness,
+			power: hero.power_level,
+			image: hero.image_url,
+			avatarImage: hero.arena_avatar_url,
+		}));
+		this.setState({ heroes: loadedHeroes });
+	};
+
+	startGame = () => this.setState({ shouldGameBegin: true });
+
+	enterAdminPanel = () => this.setState({ shouldEnterAdminPanel: true });
+
+	backToWelcomePage = () =>
+		this.setState({ shouldEnterAdminPanel: false, shouldGameBegin: false });
+
+	render() {
+		//Start the Game
+		if (this.state.shouldGameBegin)
+			return (
+				<Game
+					backToWelcomePage={this.backToWelcomePage}
+					heroes={this.state.heroes}
+					worlds={this.state.worlds}
+				/>
+			);
+		else if (this.state.shouldEnterAdminPanel) {
+			return (
+				<AdminPanel
+					addInstance={this.addInstance}
+					updateInstance={this.updateInstance}
+					deleteInstance={this.deleteInstance}
+					startGame={this.startGame}
+					heroes={this.state.heroes}
+					worlds={this.state.worlds}
+				/>
+			);
+		} else
+			return (
+				<WelcomePage
+					submitLogin={this.submitLogin}
+					isUserAuthorized={this.state.isUserAuthorized}
+					enterAdmin={this.enterAdminPanel}
+					startGame={this.startGame}
+				/>
+			);
 	}
-	return (
-		<WelcomePage
-			submitLogin={submitLogin}
-			isUserAuthorized={isUserAuthorized}
-			enterAdmin={enterAdminPanel}
-			startGame={startGame}
-		/>
-	);
+
+	componentDidMount() {
+		this.loadWorlds();
+		this.loadHeroes();
+	}
 }

@@ -11,6 +11,14 @@ import PropTypes from 'prop-types';
 export default function Game(props) {
 	const finalMusic = useRef(new Audio('final_music.wav'));
 
+	const [whichPlayerTurn, setWhichPlayerTurn] = useState(1);
+	const [howManyPlayers, setHowManyPlayers] = useState(0);
+	const [shouldArenaStart, setShouldArenaStart] = useState(false);
+	useEffect(() => {
+		if (whichPlayerTurn === howManyPlayers + 1 && howManyPlayers)
+			setShouldArenaStart(true);
+	}, [whichPlayerTurn]);
+
 	const [disabledWorlds, setdisabledWorlds] = useState(
 		props.worlds
 			.filter(
@@ -30,14 +38,6 @@ export default function Game(props) {
 			setdisabledWorlds((prev) => [...prev, lastWorldChoosen]);
 		}
 	}, [heroesChoosed]);
-
-	const [whichPlayerTurn, setWhichPlayerTurn] = useState(1);
-	const [howManyPlayers, setHowManyPlayers] = useState(0);
-	const [shouldArenaStart, setShouldArenaStart] = useState(false);
-	useEffect(() => {
-		if (whichPlayerTurn === howManyPlayers + 1 && howManyPlayers)
-			setShouldArenaStart(true);
-	}, [whichPlayerTurn]);
 
 	const unselectWorld = () => setWorldChoosen(() => null);
 
