@@ -6,9 +6,21 @@ import '../../fontello/css/fontello.css';
 import DB from '../../util/connectToDB';
 
 export default function App() {
-	const [isUserAuthorized, setIsUserAuthorized] = useState(false);
+	const [loggedUser, setLoggedUser] = useState({});
 	const [shouldGameBegin, setShouldGameBegin] = useState(false);
 	const [shouldEnterAdminPanel, setShouldEnterAdminPanel] = useState(false);
+
+	const [loginOn, setloginOn] = useState(false);
+	const [currentLoginValue, setCurrentLoginValue] = useState({
+		name: '',
+		password: '',
+	});
+	const [registerOn, setRegisterOn] = useState(false);
+	const [currentRegisterValue, setCurrentRegisterValue] = useState({
+		name: '',
+		password: '',
+		confirmPassword: '',
+	});
 
 	const [worlds, setWorlds] = useState([]);
 	const [heroes, setHeroes] = useState([]);
@@ -40,12 +52,35 @@ export default function App() {
 		setHeroes(loadedHeroes);
 	};
 
-	const submitLogin = async (userName) => {
-		const loginResponse = await DB.logIn(userName);
-		if (loginResponse) {
-			setIsUserAuthorized(true);
+	const submitLogin = async (e) => {
+		e.preventDefault();
+		const loginResponse = await DB.logIn(currentLoginValue);
+		if (loginResponse.user) {
+			setLoggedUser({ name: loginResponse.user });
 			setShouldEnterAdminPanel(true);
-		}
+			setloginOn(false);
+		} else if (loginResponse.response) alert(loginResponse.response);
+		setCurrentLoginValue({
+			name: '',
+			password: '',
+		});
+	};
+
+	const submitRegister = async (e) => {
+		e.preventDefault();
+		const registerResponse = await DB.register(currentRegisterValue);
+		setRegisterOn(false);
+		alert(registerResponse);
+		setCurrentRegisterValue({
+			name: '',
+			password: '',
+			confirmPassword: '',
+		});
+	};
+
+	const logOut = () => {
+		setLoggedUser({});
+		setShouldEnterAdminPanel(false);
 	};
 
 	const addInstance = async (type, objectToAdd) => {
@@ -187,6 +222,7 @@ export default function App() {
 				addInstance={addInstance}
 				updateInstance={updateInstance}
 				deleteInstance={deleteInstance}
+				logOut={logOut}
 				startGame={startGame}
 				heroes={heroes}
 				worlds={worlds}
@@ -195,8 +231,17 @@ export default function App() {
 	}
 	return (
 		<WelcomePage
+			loginOn={loginOn}
+			setloginOn={setloginOn}
+			currentLoginValue={currentLoginValue}
+			setCurrentLoginValue={setCurrentLoginValue}
 			submitLogin={submitLogin}
-			isUserAuthorized={isUserAuthorized}
+			registerOn={registerOn}
+			setRegisterOn={setRegisterOn}
+			currentRegisterValue={currentRegisterValue}
+			setCurrentRegisterValue={setCurrentRegisterValue}
+			submitRegister={submitRegister}
+			loggedUser={loggedUser}
 			enterAdmin={enterAdminPanel}
 			startGame={startGame}
 		/>

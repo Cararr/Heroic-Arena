@@ -1,36 +1,91 @@
-import React, { useState } from 'react';
 import './LoginPanel.css';
 import PropTypes from 'prop-types';
 
 export default function LoginPanel(props) {
-	const [currentLoginValue, setCurrentLoginValue] = useState('');
-
-	const handleInputChange = (e) => setCurrentLoginValue(e.target.value);
+	const handleInputChange = ({ target }) =>
+		props.registerOn
+			? props.setCurrentRegisterValue((prev) => ({
+					...prev,
+					[target.name]: target.value,
+			  }))
+			: props.setCurrentLoginValue((prev) => ({
+					...prev,
+					[target.name]: target.value,
+			  }));
 
 	return (
-		<div className="login-panel">
-			<p>Identify yourself</p>
+		<form
+			onSubmit={props.registerOn ? props.submitRegister : props.submitLogin}
+			className="login-panel"
+		>
+			<p>{props.registerOn ? 'Register yourself' : 'Identify yourself'}</p>
 			<input
+				required
+				minLength={3}
 				onChange={handleInputChange}
-				value={currentLoginValue}
+				value={
+					props.registerOn
+						? props.currentRegisterValue.name
+						: props.currentLoginValue.name
+				}
+				name="name"
+				placeholder="Name"
 				type="text"
 			></input>
+			<input
+				required
+				minLength={5}
+				onChange={handleInputChange}
+				value={
+					props.registerOn
+						? props.currentRegisterValue.password
+						: props.currentLoginValue.password
+				}
+				name="password"
+				placeholder="Password"
+				type="password"
+			></input>
+			{props.registerOn && (
+				<input
+					required
+					minLength={5}
+					onChange={handleInputChange}
+					value={props.currentRegisterValue.confirmPassword}
+					name="confirmPassword"
+					placeholder="Confirm password"
+					type="password"
+				></input>
+			)}
 			<div className="login-buttons">
-				<button onClick={props.cancelLogin} className="login-button">
-					Cancel
-				</button>
-				<button
-					onClick={() => props.submitLogin(currentLoginValue)}
-					className="login-button"
-				>
+				<button className="login-button" type="submit">
 					Submit
 				</button>
+				{!props.registerOn && (
+					<button className="login-button" onClick={props.openRegister}>
+						New user
+					</button>
+				)}
+				<button
+					onClick={props.registerOn ? props.cancelRegister : props.cancelLogin}
+					className="login-button"
+				>
+					Cancel
+				</button>
 			</div>
-		</div>
+		</form>
 	);
 }
 
 LoginPanel.propTypes = {
-	submitLogin: PropTypes.func.isRequired,
 	cancelLogin: PropTypes.func.isRequired,
+	currentLoginValue: PropTypes.object.isRequired,
+	setCurrentLoginValue: PropTypes.func.isRequired,
+	submitLogin: PropTypes.func.isRequired,
+	openRegister: PropTypes.func.isRequired,
+	cancelRegister: PropTypes.func.isRequired,
+	setRegisterOn: PropTypes.func.isRequired,
+	registerOn: PropTypes.bool.isRequired,
+	currentRegisterValue: PropTypes.object.isRequired,
+	setCurrentRegisterValue: PropTypes.func.isRequired,
+	submitRegister: PropTypes.func.isRequired,
 };

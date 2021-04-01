@@ -81,7 +81,8 @@ export default function AdminPanel(props) {
 	return (
 		<div className="admin-panel">
 			<header>
-				<h1>Manage HA's Database</h1>
+				<button onClick={props.logOut}>Log out</button>
+				<h1>Manage Heroic Arena's Database</h1>
 				<button onClick={props.startGame}>Start game</button>
 			</header>
 			<DataContainer
@@ -116,6 +117,7 @@ AdminPanel.propTypes = {
 	updateInstance: PropTypes.func.isRequired,
 	deleteInstance: PropTypes.func.isRequired,
 	startGame: PropTypes.func.isRequired,
+	logOut: PropTypes.func.isRequired,
 	heroes: PropTypes.array.isRequired,
 	worlds: PropTypes.array.isRequired,
 };

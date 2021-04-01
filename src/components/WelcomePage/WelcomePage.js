@@ -1,22 +1,55 @@
-import React, { useState } from 'react';
 import LoginPanel from '../LoginPanel/LoginPanel';
 import './WelcomePage.css';
 import PropTypes from 'prop-types';
 
 export default function WelcomePage(props) {
-	const [loginOn, setloginOn] = useState(false);
-
-	const cancelLogin = () => setloginOn(false);
-
-	const openLogin = () => setloginOn(true);
+	const openLogin = () => props.setloginOn(true);
+	const cancelLogin = () => {
+		props.setloginOn(false);
+		props.setCurrentLoginValue({
+			name: '',
+			password: '',
+		});
+	};
+	const openRegister = () => {
+		props.setCurrentLoginValue({
+			name: '',
+			password: '',
+		});
+		props.setRegisterOn(true);
+	};
+	const cancelRegister = (e) => {
+		e.preventDefault();
+		props.setRegisterOn(false);
+		props.setCurrentRegisterValue({
+			name: '',
+			password: '',
+			confirmPassword: '',
+		});
+	};
 
 	return (
 		<div className="welcome-page">
-			{loginOn && (
-				<LoginPanel submitLogin={props.submitLogin} cancelLogin={cancelLogin} />
+			{props.loginOn && (
+				<LoginPanel
+					currentLoginValue={props.currentLoginValue}
+					setCurrentLoginValue={props.setCurrentLoginValue}
+					submitLogin={props.submitLogin}
+					cancelLogin={cancelLogin}
+					openRegister={openRegister}
+					cancelRegister={cancelRegister}
+					registerOn={props.registerOn}
+					setRegisterOn={props.setRegisterOn}
+					currentRegisterValue={props.currentRegisterValue}
+					setCurrentRegisterValue={props.setCurrentRegisterValue}
+					submitRegister={props.submitRegister}
+				/>
 			)}
 			<h1>Welcome to Heroic Arena!</h1>
-			<h2>Are you ready to start?!</h2>
+			<h2>
+				{props.loggedUser.name ? `${props.loggedUser.name}, a` : 'A'}re you
+				ready?!
+			</h2>
 			<div className="welcome-page-buttons">
 				<button
 					onClick={props.startGame}
@@ -28,7 +61,7 @@ export default function WelcomePage(props) {
 					></img>
 				</button>
 				<button
-					onClick={props.isUserAuthorized ? props.enterAdmin : openLogin}
+					onClick={props.loggedUser.name ? props.enterAdmin : openLogin}
 					className="welcome-page-button manage-database-btn"
 				>
 					<img
@@ -43,8 +76,17 @@ export default function WelcomePage(props) {
 }
 
 WelcomePage.propTypes = {
+	loginOn: PropTypes.bool.isRequired,
+	setloginOn: PropTypes.func.isRequired,
+	currentLoginValue: PropTypes.object.isRequired,
+	setCurrentLoginValue: PropTypes.func.isRequired,
 	submitLogin: PropTypes.func.isRequired,
-	isUserAuthorized: PropTypes.bool.isRequired,
+	registerOn: PropTypes.bool.isRequired,
+	setRegisterOn: PropTypes.func.isRequired,
+	currentRegisterValue: PropTypes.object.isRequired,
+	setCurrentRegisterValue: PropTypes.func.isRequired,
+	submitRegister: PropTypes.func.isRequired,
+	loggedUser: PropTypes.object.isRequired,
 	enterAdmin: PropTypes.func.isRequired,
 	startGame: PropTypes.func.isRequired,
 };

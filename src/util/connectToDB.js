@@ -26,12 +26,44 @@ export default class DB {
 		}
 	}
 
-	static async logIn(userName) {
-		const fullPath = `${PATH}/login?name=${userName}`;
+	static async logIn(userCredentials) {
+		const fullPath = `${PATH}/login`;
 		try {
-			const response = await fetch(fullPath);
+			const response = await fetch(fullPath, {
+				method: 'POST',
+				headers: {
+					Accept: 'application/json',
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify(userCredentials),
+			});
 			const jsonRespone = await response.json();
-			return jsonRespone.allowed;
+			return jsonRespone;
+		} catch (error) {
+			console.log(error.message);
+		}
+	}
+
+	static async register(registerForm) {
+		if (registerForm.password !== registerForm.confirmPassword) {
+			alert('Confirm your password correctly!');
+			return;
+		}
+		const fullPath = `${PATH}/register`;
+		try {
+			const response = await fetch(fullPath, {
+				method: 'POST',
+				headers: {
+					Accept: 'application/json',
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({
+					user: { name: registerForm.name, password: registerForm.password },
+				}),
+			});
+			if (response.ok) return 'You can now log in with your new account.';
+			const errorResponse = await response.json();
+			if (errorResponse.errno === 19) return 'Name already taken.';
 		} catch (error) {
 			console.log(error.message);
 		}
