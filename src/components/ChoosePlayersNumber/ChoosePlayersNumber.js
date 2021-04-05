@@ -3,14 +3,18 @@ import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 
 export default function ChoosePlayersNumber(props) {
-	const [howManyPlayers, setHowManyPlayers] = useState(0);
+	const [
+		currentPlayersNumberSelected,
+		setCurrentPlayersNumberSelected,
+	] = useState(0);
 
-	const setPlayersNumber = (e) => setHowManyPlayers(Number(e.target.value));
+	const setPlayersNumber = (e) =>
+		setCurrentPlayersNumberSelected(Number(e.target.value));
 
 	const submitNumber = (e) => {
 		e.preventDefault();
-		howManyPlayers !== 0
-			? props.submitPlayersNumber(howManyPlayers)
+		currentPlayersNumberSelected !== 0
+			? props.submitPlayersNumber(currentPlayersNumberSelected)
 			: alert('Choose a number first!');
 	};
 
