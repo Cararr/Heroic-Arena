@@ -15,7 +15,7 @@ export default function AdminPanel(props) {
 		createNewOn: false,
 		databaseResponse: null,
 	});
-
+	// Create new hero / world
 	const addInstance = async (type, obejctToAdd) => {
 		const databaseResponse = await props.addInstance(type, obejctToAdd);
 		if (type === 'world') {
@@ -24,7 +24,7 @@ export default function AdminPanel(props) {
 			setHero((prev) => ({ ...prev, createNewOn: false, databaseResponse }));
 		}
 	};
-
+	// Update hero / world
 	const updateInstance = async (type, updatedObjectData) => {
 		const updatedInstance = {
 			...updatedObjectData,
@@ -39,7 +39,7 @@ export default function AdminPanel(props) {
 			setHero((prev) => ({ ...prev, selected: false, databaseResponse }));
 		}
 	};
-
+	// Delete hero / world
 	const deleteInstance = async (type) => {
 		if (type === 'world') {
 			const databaseResponse = await props.deleteInstance(type, world.selected);
@@ -85,6 +85,7 @@ export default function AdminPanel(props) {
 				<h1>Manage Heroic Arena's Database</h1>
 				<button onClick={props.startGame}>Start game</button>
 			</header>
+			{/* Render one data list for worlds and another for heroes */}
 			<DataContainer
 				selectWorld={selectWorld}
 				isCreateWorldOn={world.createNewOn}

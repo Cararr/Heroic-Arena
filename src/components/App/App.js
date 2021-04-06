@@ -10,11 +10,13 @@ export default function App() {
 	const [shouldGameBegin, setShouldGameBegin] = useState(false);
 	const [shouldEnterAdminPanel, setShouldEnterAdminPanel] = useState(false);
 
+	// Login panel states
 	const [loginOn, setloginOn] = useState(false);
 	const [currentLoginValue, setCurrentLoginValue] = useState({
 		name: '',
 		password: '',
 	});
+	// Register panel states
 	const [registerOn, setRegisterOn] = useState(false);
 	const [currentRegisterValue, setCurrentRegisterValue] = useState({
 		name: '',
@@ -27,7 +29,7 @@ export default function App() {
 	useEffect(() => {
 		loadObjects();
 	}, []);
-
+	// Get all worlds and heroes from DB and load them on App's 1st render
 	const loadObjects = async () => {
 		const worldsResponse = await DB.getWorlds();
 		const loadedWorlds = worldsResponse.worlds.map((world) => ({
@@ -83,9 +85,11 @@ export default function App() {
 		setShouldEnterAdminPanel(false);
 	};
 
+	// Create new hero / world
 	const addInstance = async (type, objectToAdd) => {
 		const response = await DB.addToDB(type, objectToAdd);
 		if (type === 'world') {
+			// If response is an object that means everything went OK
 			if (typeof response === 'object') {
 				const createdWorld = {
 					id: response.world.id,
@@ -95,8 +99,10 @@ export default function App() {
 				};
 				setWorlds((prev) => [...prev, createdWorld]);
 				return `Created world #${response.world.id}: ${response.world.name}.`;
-			} else return response;
+			} // Else something went wrong and function returns DB error response
+			else return response;
 		} else if (type === 'hero') {
+			// If response is an object that means everything went OK
 			if (typeof response === 'object') {
 				const createdHero = {
 					id: response.hero.id,
@@ -111,12 +117,16 @@ export default function App() {
 				};
 				setHeroes((prev) => [...prev, createdHero]);
 				return `Created hero #${response.hero.id}: ${response.hero.name}.`;
-			} else return response;
+			} // Else something went wrong and function returns DB error response
+			else return response;
 		} else return `Wrong object type: ${type}`;
 	};
 
+	// Update hero / world
 	const updateInstance = async (type, updatedObjectData) => {
+		// If object is the same this message will be returned
 		const noChangesMessage = `You haven't changed anything at all!`;
+
 		if (type === 'world') {
 			const worldToBeUpdated = worlds.find(
 				(world) => world.id === updatedObjectData.id
@@ -147,7 +157,9 @@ export default function App() {
 
 		const response = await DB.updateInDB(type, updatedObjectData);
 		if (type === 'world') {
+			// If response is an object that means everything went OK
 			if (typeof response === 'object') {
+				// Replace old world with updated one
 				const updatedWorlds = worlds;
 				updatedWorlds[
 					updatedWorlds.findIndex((world) => world.id === response.world.id)
@@ -159,9 +171,12 @@ export default function App() {
 				};
 				setWorlds(updatedWorlds);
 				return `Updated world #${response.world.id}`;
-			} else return response;
+			} // Else something went wrong and function returns DB error response
+			else return response;
 		} else if (type === 'hero') {
+			// If response is an object that means everything went OK
 			if (typeof response === 'object') {
+				// Replace old hero with updated one
 				const updatedHeroes = heroes;
 				updatedHeroes[
 					updatedHeroes.findIndex((hero) => hero.id === response.hero.id)
@@ -178,20 +193,25 @@ export default function App() {
 				};
 				setHeroes(updatedHeroes);
 				return `Updated hero #${response.hero.id}`;
-			} else return response;
+			} // Else something went wrong and function returns DB error response
+			else return response;
 		} else return `Wrong object type: ${type}`;
 	};
 
+	// Delete hero / world
 	const deleteInstance = async (type, objectToDelete) => {
 		const response = await DB.deleteFromDB(type, objectToDelete);
+		// If everything went OK the DB will return an id of deleted instance
 		if (type === 'world') {
+			// Remove deleted world from loaded world list
 			const worldsAfterDelete = worlds.filter((world) => world.id !== response);
 			setWorlds(worldsAfterDelete);
-			//if world we want to remove has supplied heroes it wont be romoved
+			// If world requested to delete has supplied heroes it wont be deleted. Instead DB will return a string containing list of supplied heroes
 			return typeof response === 'number'
 				? `Deleted world #${response}`
 				: response;
 		} else if (type === 'hero') {
+			// Remove deleted hero from loaded world list
 			const heroesAfterDelete = heroes.filter((hero) => hero.id !== response);
 			setHeroes(heroesAfterDelete);
 			return `Deleted hero #${response}`;
@@ -207,7 +227,7 @@ export default function App() {
 		setShouldEnterAdminPanel(false);
 	};
 
-	//Start the Game
+	// Start the Game if user click a 'start' button
 	if (shouldGameBegin)
 		return (
 			<Game
@@ -216,6 +236,7 @@ export default function App() {
 				worlds={worlds}
 			/>
 		);
+	// Enter the admin panel if a state allows it
 	else if (shouldEnterAdminPanel) {
 		return (
 			<AdminPanel
@@ -228,22 +249,23 @@ export default function App() {
 				worlds={worlds}
 			/>
 		);
-	}
-	return (
-		<WelcomePage
-			loginOn={loginOn}
-			setloginOn={setloginOn}
-			currentLoginValue={currentLoginValue}
-			setCurrentLoginValue={setCurrentLoginValue}
-			submitLogin={submitLogin}
-			registerOn={registerOn}
-			setRegisterOn={setRegisterOn}
-			currentRegisterValue={currentRegisterValue}
-			setCurrentRegisterValue={setCurrentRegisterValue}
-			submitRegister={submitRegister}
-			loggedUser={loggedUser}
-			enterAdmin={enterAdminPanel}
-			startGame={startGame}
-		/>
-	);
+	} // Otherwise it means that the Welcome Page should be rendered
+	else
+		return (
+			<WelcomePage
+				loginOn={loginOn}
+				setloginOn={setloginOn}
+				currentLoginValue={currentLoginValue}
+				setCurrentLoginValue={setCurrentLoginValue}
+				submitLogin={submitLogin}
+				registerOn={registerOn}
+				setRegisterOn={setRegisterOn}
+				currentRegisterValue={currentRegisterValue}
+				setCurrentRegisterValue={setCurrentRegisterValue}
+				submitRegister={submitRegister}
+				loggedUser={loggedUser}
+				enterAdmin={enterAdminPanel}
+				startGame={startGame}
+			/>
+		);
 }

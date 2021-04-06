@@ -1,6 +1,7 @@
-.choose-player-header {
+.choose-hero-header {
 	color: darkblue;
 	text-align: center;
 	margin: 1rem 0;
 	font-weight: bold;
+	font-size: 3rem;
 }

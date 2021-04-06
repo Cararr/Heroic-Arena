@@ -53,7 +53,7 @@ export default function WelcomePage(props) {
 			<div className="welcome-page-buttons">
 				<button
 					onClick={props.startGame}
-					className="welcome-page-button start-game-btn"
+					className="welcome-page-button start-game-button"
 				>
 					<img
 						alt="sword and axe"
@@ -62,7 +62,7 @@ export default function WelcomePage(props) {
 				</button>
 				<button
 					onClick={props.loggedUser.name ? props.enterAdmin : openLogin}
-					className="welcome-page-button manage-database-btn"
+					className="welcome-page-button manage-database-button"
 				>
 					<img
 						alt="database"
