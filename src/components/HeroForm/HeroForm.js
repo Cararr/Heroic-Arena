@@ -102,8 +102,6 @@ export default function HeroForm(props) {
 					name="image_url"
 					rows={5}
 					value={currentForm.image_url}
-					// @ts-ignore
-					type="text"
 					onChange={changeValue}
 				></textarea>
 				<label>Avatar:</label>
@@ -112,8 +110,6 @@ export default function HeroForm(props) {
 					name="arena_avatar_url"
 					rows={5}
 					value={currentForm.arena_avatar_url}
-					// @ts-ignore
-					type="text"
 					onChange={changeValue}
 				></textarea>
 			</form>
