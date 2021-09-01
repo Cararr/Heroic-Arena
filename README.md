@@ -30,4 +30,4 @@ App will run on port 3000.
 
 ---
 
-> _Visit my [Github](https://github.com/Cararr) account for more or contact me at cararr@tlen.pl!_
+> _Did you find this project interesting? Visit my [Github](https://github.com/Cararr) account or contact me at cararr@tlen.pl!_
